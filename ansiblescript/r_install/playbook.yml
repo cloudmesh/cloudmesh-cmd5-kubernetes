@@ -1,0 +1,5 @@
+---
+- hosts: R_host
+  remote_user: cc
+  roles:
+    - project7.r
