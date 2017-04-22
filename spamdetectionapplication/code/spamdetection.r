@@ -207,22 +207,3 @@ highlyrepeatedwords<-findFreqTerms(dtm, 80)
 #These highly used words are used as an index to make VSM 
 #(vector space model) for trained data and test data
 
-#vectorized training data set
-vtrdata = vectorizeTrainingAndTestData(trdata, highlyrepeatedwords);
-
-#vectorized test data set 
-vtedata = vectorizeTrainingAndTestData(tedata, highlyrepeatedwords);
-
-#Naive Bayes to be added
-
-
-# Run different classification algorithms
-# differnet SVMs with different Kernels
-print("----------------------------------SVM-----------------------------------------")
-svmLinearAnalysis(vtrdata,vtedata);
-
-print("Polynomial Kernel")
-svmPolynomialAnalysis(vtrdata,vtedata);
-
-print("Radial Kernel")
-svmRadialAnalysis(vtrdata,vtedata);
