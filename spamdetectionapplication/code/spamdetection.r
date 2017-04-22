@@ -15,9 +15,9 @@ if(!require("ada"))
   install.packages("ada",repos = "http://cran.us.r-project.org")
 
 library("tm")
-library("e1071")
+library(e1071)
 library(RWeka)
-library("ada")
+library(ada)
 
 #Initialize random generator
 set.seed(1245)
