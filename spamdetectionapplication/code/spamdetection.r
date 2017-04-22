@@ -1,23 +1,23 @@
 #required package for text mining
 if(!require("tm"))
-  install.packages("tm")
+  install.packages("tm",repos = "http://cran.us.r-project.org")
 
 #required package for SVM
 if(!require("e1071"))
-  install.packages("e1071")
+  install.packages("e1071",repos = "http://cran.us.r-project.org")
 
 #required package for KNN
-if(!require("RWeka"))
-  install.packages("RWeka", dependencies = TRUE)
+#if(!require("RWeka"))
+#  install.packages("RWeka", dependencies = TRUE,repos = "http://cran.us.r-project.org")
 
 #required package for Adaboost
 if(!require("ada"))
-  install.packages("ada")
+  install.packages("ada",repos = "http://cran.us.r-project.org")
 
-library("tm")
-library("e1071")
-library(RWeka)
-library("ada")
+library(tm)
+library(e1071)
+#library(RWeka)
+library(ada)
 
 #Initialize random generator
 set.seed(1245)
@@ -104,25 +104,23 @@ set.seed(1245)
  }
 
  ############### End - Method definitions for the learning process ####################
-  
 #loading data. Original data is from http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection
-
-print("Uploading SMS Spam dataset")
-smstable<-read.csv('smsspamcollection/smsspamcollection.txt', header = FALSE, sep = "\t", colClasses=c("character","character"))
-
-
-n = nrow(smstable);
-mysample = sample(1:nrow(smstable),n/2)  # dividing the training and testing set
-
-training_data = smstable[mysample,]
-testing_data = smstable[-mysample,]
-
-dataTrain <- sample[ trainIndex,]
-
-dataTest  <- sample[-trainIndex,]
-
+ print("Uploading SMS Spam dataset")
+ smstable<-read.csv('SMSSpamCollection.txt', header = FALSE, quote = "", sep = "\t", colClasses=c('character','character'))
+ 
+ 
+ n = nrow(smstable);
+ mysample = sample(1:nrow(smstable),n/2)  # dividing the training and testing set
+ 
+ training_data = smstable[mysample,]
+ testing_data = smstable[-mysample,]
+ 
+# dataTrain <- sample[ trainIndex,]
+ 
+# dataTest  <- sample[-trainIndex,]
+ 
 #smstabletmp<-smstable
-smstabletmp<-dataTrain
+smstabletmp<-training_data
 
 print("Extracting Ham and Spam Basic Statistics!")
 
@@ -228,13 +226,3 @@ svmPolynomialAnalysis(vtrdata,vtedata);
 
 print("Radial Kernel")
 svmRadialAnalysis(vtrdata,vtedata);
-
-print("----------------------------------KNN-----------------------------------------")
-kNearestNeighbourAnalysis(vtrdata,vtedata);
-
-print("---------------------------------Adaboost-------------------------------------")
-adaBoostAnalysis(vtrdata,vtedata)
-      
-            
-                          
-                                                    
