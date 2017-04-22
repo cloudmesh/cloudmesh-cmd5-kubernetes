@@ -12,7 +12,7 @@ if(!require("RWeka"))
 
 #required package for Adaboost
 if(!require("ada"))
-  install.packages("ada")
+  install.packages("ada",repos = "http://cran.us.r-project.org")
 
 library("tm")
 library("e1071")
