@@ -1,6 +1,6 @@
 #required package for text mining
 if(!require("tm"))
-  install.packages("tm")
+  install.packages("tm",repos = "http://cran.us.r-project.org")
 
 #required package for SVM
 if(!require("e1071"))
