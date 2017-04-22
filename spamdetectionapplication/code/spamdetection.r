@@ -4,7 +4,7 @@ if(!require("tm"))
 
 #required package for SVM
 if(!require("e1071"))
-  install.packages("e1071")
+  install.packages("e1071",repos = "http://cran.us.r-project.org")
 
 #required package for KNN
 if(!require("RWeka"))
