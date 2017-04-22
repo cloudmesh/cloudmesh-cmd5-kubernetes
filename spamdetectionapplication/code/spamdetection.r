@@ -7,16 +7,16 @@ if(!require("e1071"))
   install.packages("e1071",repos = "http://cran.us.r-project.org")
 
 #required package for KNN
-if(!require("RWeka"))
-  install.packages("RWeka", dependencies = TRUE,repos = "http://cran.us.r-project.org")
+#if(!require("RWeka"))
+#  install.packages("RWeka", dependencies = TRUE,repos = "http://cran.us.r-project.org")
 
 #required package for Adaboost
 if(!require("ada"))
   install.packages("ada",repos = "http://cran.us.r-project.org")
 
-library("tm")
+library(tm)
 library(e1071)
-library(RWeka)
+#library(RWeka)
 library(ada)
 
 #Initialize random generator
@@ -108,7 +108,7 @@ set.seed(1245)
 #loading data. Original data is from http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection
 
 print("Uploading SMS Spam dataset")
-smstable<-read.csv('smsspamcollection/smsspamcollection.txt', header = FALSE, sep = "\t", colClasses=c("character","character"))
+smstable<-read.csv('SMSSpamCollection.txt', header = FALSE, sep = "\t", colClasses=c("character","character"))
 
 
 n = nrow(smstable);
@@ -116,6 +116,8 @@ mysample = sample(1:nrow(smstable),n/2)  # dividing the training and testing set
 
 training_data = smstable[mysample,]
 testing_data = smstable[-mysample,]
+
+trainIndex = n/2
 
 dataTrain <- sample[ trainIndex,]
 
