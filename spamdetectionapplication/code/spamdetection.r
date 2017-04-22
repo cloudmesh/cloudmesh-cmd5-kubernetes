@@ -8,7 +8,7 @@ if(!require("e1071"))
 
 #required package for KNN
 if(!require("RWeka"))
-  install.packages("RWeka", dependencies = TRUE)
+  install.packages("RWeka", dependencies = TRUE,repos = "http://cran.us.r-project.org")
 
 #required package for Adaboost
 if(!require("ada"))
