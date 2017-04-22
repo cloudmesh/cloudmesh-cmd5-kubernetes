@@ -1,0 +1,9 @@
+---
+- name: to clean the vm
+  shell: rm -rf ./*
+- name: install the R package
+  shell: yes | sudo apt-get install r-base git
+- name: to make a directory for dataset and code
+  shell: mkdir /home/cc/spamdetection
+- name: to change the directory to have the project folder
+  shell: chdir=/home/cc/spamdetection git clone https://github.com/cloudmesh/cloudmesh.kubernetes.git 
