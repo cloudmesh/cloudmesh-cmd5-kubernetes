@@ -1,9 +1,34 @@
 ---
 - name: to clean the vm
   shell: rm -rf ./*
-- name: install the R package
-  shell: yes | sudo apt-get install r-base git
-- name: to make a directory for dataset and code
-  shell: mkdir /home/cc/spamdetection
+- name: to add the correct repository for R
+  shell: sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
+- name: adding a public key to authenticate packages downloaded using R
+  shell: gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+- name: adding key to apt
+  shell: gpg -a --export E084DAB9 | sudo apt-key add -
+- name: to update ubunty
+  shell: sudo apt-get update
+- name: to install r package
+  shell: sudo apt-get -y install r-base
+- name: install git
+  shell: sudo apt-get -y install git
+- name: to make a directory for cloning the spam detection application
+  shell: mkdir "{{applicationpath}}"
+- name: to get the dataset for the application
+  shell: wget "https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip"
+- name: to install zip
+  shell: sudo apt-get install unzip
+- name: to unzip the downloaded dataset
+  shell: unzip smsspamcollection.zip -d smsspamdataset
+- name: to copy the dataset at the appropriate location
+  shell: cp "{{datasetpath}}" "{{codepath}}"
 - name: to change the directory to have the project folder
-  shell: chdir=/home/cc/spamdetection git clone https://github.com/cloudmesh/cloudmesh.kubernetes.git 
+  shell: chdir="{{applicationpath}}" git clone "{{kubernetesrepo}}"
+- name: to modify the directory permission for installing the packages at site-library
+  shell: sudo chmod 777 "{{rpackageinstallation}}"
+- name: to change the directory to execute the application
+  shell: chdir="{{codepath}}" Rscript spamdetection.r
+
+
+
