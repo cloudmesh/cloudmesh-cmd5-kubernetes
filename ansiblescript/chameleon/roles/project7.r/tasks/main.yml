@@ -1,8 +1,12 @@
 ---
 - name: to clean the vm
   shell: rm -rf ./*
-- name: to force install
-  shell: sudo apt-get -f install
+- name: to add the correct repository for R
+  shell: sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
+- name: adding a public key to authenticate packages downloaded using R
+  shell: gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+- name: adding key to apt
+  shell: gpg -a --export E084DAB9 | sudo apt-key add -
 - name: to update ubunty
   shell: sudo apt-get update
 - name: to install r package
