@@ -21,12 +21,12 @@
   shell: sudo apt-get install unzip
 - name: to unzip the downloaded dataset
   shell: unzip smsspamcollection.zip -d smsspamdataset
-- name: to copy the dataset at the appropriate location
-  shell: cp "{{datasetpath}}" "{{codepath}}"
 - name: to change the directory to have the project folder
   shell: chdir="{{applicationpath}}" git clone "{{kubernetesrepo}}"
 - name: to modify the directory permission for installing the packages at site-library
   shell: sudo chmod 777 "{{rpackageinstallation}}"
+- name: to copy the dataset at the appropriate location
+  shell: cp "{{datasetpath}}" "{{codepath}}"
 - name: to change the directory to execute the application
   shell: chdir="{{codepath}}" Rscript spamdetection.r
 
