@@ -1,0 +1,19 @@
+---
+- name: to clean the vm
+  shell: rm -rf ./*
+- name: to force install
+  shell: sudo apt-get -f install
+- name: to update ubunty
+  shell: sudo apt-get update
+- name: to install r package
+  shell: sudo apt-get -y install r-base
+- name: install the git
+  shell: sudo apt-get -y install git
+- name: to make a directory for cloning the software 
+  shell: mkdir /home/cc/spamdetection
+- name: to change the directory to have the project folder
+  shell: chdir=/home/cc/spamdetection git clone https://github.com/cloudmesh/cloudmesh.kubernetes.git
+- name: to modify the directory permission for installing the packages
+  shell: sudo chmod 777 /usr/local/lib/R/site-library
+- name: to change the directory to execute the 
+  shell: chdir=/home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code Rscript spamdetection.r
