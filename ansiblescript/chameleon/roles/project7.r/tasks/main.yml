@@ -7,13 +7,13 @@
   shell: sudo apt-get update
 - name: to install r package
   shell: sudo apt-get -y install r-base
-- name: install the git
+- name: install git
   shell: sudo apt-get -y install git
-- name: to make a directory for cloning the software 
-  shell: mkdir /home/cc/spamdetection
+- name: to make a directory for cloning the spam detection application
+  shell: mkdir "{{applicationpath}}"
 - name: to change the directory to have the project folder
-  shell: chdir=/home/cc/spamdetection git clone https://github.com/cloudmesh/cloudmesh.kubernetes.git
-- name: to modify the directory permission for installing the packages
-  shell: sudo chmod 777 /usr/local/lib/R/site-library
-- name: to change the directory to execute the 
-  shell: chdir=/home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code Rscript spamdetection.r
+  shell: chdir="{{applicationpath}}" git clone "{{kubernetesrepo}}"
+- name: to modify the directory permission for installing the packages at site-library
+  shell: sudo chmod 777 "{{rpackageinstallation}}"
+- name: to change the directory to execute the application
+  shell: chdir="{{codepath}}" Rscript spamdetection.r
