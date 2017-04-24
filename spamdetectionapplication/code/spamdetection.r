@@ -14,6 +14,9 @@ if(!require("e1071"))
 if(!require("ada"))
   install.packages("ada",repos = "http://cran.us.r-project.org")
 
+if(!require("rbenchmark"))
+  install.packages("rbenchmark",repos = "http://cran.us.r-project.org")
+
 library(tm)
 library(e1071)
 #library(RWeka)
@@ -224,8 +227,8 @@ svmPolynomialAnalysis(vtrdata,vtedata);
 print("Radial Kernel")
 svmRadialAnalysis(vtrdata,vtedata);
 
-print("----------------------------------KNN-----------------------------------------")
-kNearestNeighbourAnalysis(vtrdata,vtedata)
+#print("----------------------------------KNN-----------------------------------------")
+#kNearestNeighbourAnalysis(vtrdata,vtedata)
 
 # benchmark different classifiers for given algorithms
 benchmark_data1 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
