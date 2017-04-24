@@ -1,27 +1,26 @@
 #required package for text mining
 if(!require("tm"))
-  install.packages("tm")
+  install.packages("tm",repos = "http://cran.us.r-project.org")
 
 #required package for SVM
 if(!require("e1071"))
-  install.packages("e1071")
+  install.packages("e1071",repos = "http://cran.us.r-project.org")
 
 #required package for KNN
-if(!require("RWeka"))
-  install.packages("RWeka", dependencies = TRUE)
+#if(!require("RWeka"))
+#  install.packages("RWeka", dependencies = TRUE,repos = "http://cran.us.r-project.org")
 
 #required package for Adaboost
 if(!require("ada"))
-  install.packages("ada")
+  install.packages("ada",repos = "http://cran.us.r-project.org")
 
 if(!require("rbenchmark"))
-  install.packages("rbenchmark")
+  install.packages("rbenchmark",repos = "http://cran.us.r-project.org")
 
-library("tm")
-library("e1071")
-library(RWeka)
-library("ada")
-library("rbenchmark")
+library(tm)
+library(e1071)
+#library(RWeka)
+library(ada)
 
 #Initialize random generator
 set.seed(1245)
@@ -228,8 +227,8 @@ svmPolynomialAnalysis(vtrdata,vtedata);
 print("Radial Kernel")
 svmRadialAnalysis(vtrdata,vtedata);
 
-print("----------------------------------KNN-----------------------------------------")
-kNearestNeighbourAnalysis(vtrdata,vtedata)
+#print("----------------------------------KNN-----------------------------------------")
+#kNearestNeighbourAnalysis(vtrdata,vtedata)
 
 # benchmark different classifiers for given algorithms
 benchmark_data1 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
