@@ -2,6 +2,7 @@
 - hosts: kubernetes
   remote_user: cc
   roles:
+    - cleanup
     - git
     - upgrade
     - r
