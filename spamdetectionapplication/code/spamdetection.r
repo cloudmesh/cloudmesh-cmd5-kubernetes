@@ -262,4 +262,4 @@ lines(x = nreplications, y = svmPolynomial, type = "o", col = "blue")
 lines(x = nreplications, y = svmRadial, type = "o", col = "green")
 
 # Save the file.
-dev.off()
+#dev.off()
