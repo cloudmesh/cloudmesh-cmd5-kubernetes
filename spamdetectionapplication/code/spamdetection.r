@@ -21,6 +21,7 @@ library(tm)
 library(e1071)
 #library(RWeka)
 library(ada)
+library(rbenchmark)
 
 #Initialize random generator
 set.seed(1245)
@@ -239,7 +240,7 @@ benchmark_data2 = benchmark( replications = 100, svmLinearAnalysis(vtrdata, vted
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
 
-benchmark_data3 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
+benchmark_data3 = benchmark( replications = 1000, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
 
@@ -262,4 +263,4 @@ lines(x = nreplications, y = svmPolynomial, type = "o", col = "blue")
 lines(x = nreplications, y = svmRadial, type = "o", col = "green")
 
 # Save the file.
-#dev.off()
+dev.off()
