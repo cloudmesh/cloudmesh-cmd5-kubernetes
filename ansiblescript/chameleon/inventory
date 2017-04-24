@@ -1,2 +1,2 @@
 [kubernetes]
-129.114.33.6 ansible_ssh_user=cc ansible_ssh_private_key="/home/sagar/.ssh/id_rsa.pem"
+129.114.33.58 ansible_ssh_user=cc

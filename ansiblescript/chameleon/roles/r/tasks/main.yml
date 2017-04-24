@@ -10,7 +10,8 @@
   shell: gpg -a --export E084DAB9 | sudo apt-key add -
 
 - name: to update ubuntu
-  shell: sudo apt-get update
+  become: yes
+  apt: update-cache=yes upgrade=dist
 
 - name: to install r package
   shell: sudo apt-get -y install r-base

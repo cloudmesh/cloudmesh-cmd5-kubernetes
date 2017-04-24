@@ -1,12 +1,13 @@
 ---
 - name: to make a directory for cloning the spam detection application
-  shell: mkdir "{{applicationpath}}"
+  file: path="{{applicationpath}}" state=directory
 
 - name: to get the dataset for the application
-  shell: wget "https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip"
+  get_url: url=https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip dest=/home/cc
 
-- name: to install zip
-  shell: sudo apt-get install unzip
+- name: to install unzip
+  become: yes
+  apt: name=unzip state=present
 
 - name: to unzip the downloaded dataset
   shell: unzip smsspamcollection.zip -d smsspamdataset
@@ -22,4 +23,7 @@
 
 - name: to change the directory to execute the application
   shell: chdir="{{codepath}}" Rscript spamdetection.r
+
+- name: Fetch output from the remote and save to local
+  synchronize: src="{{codepath}}" dest=output/ mode=pull rsync_path="sudo rsync"
 
