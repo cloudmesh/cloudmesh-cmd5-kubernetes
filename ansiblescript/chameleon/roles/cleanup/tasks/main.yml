@@ -1,4 +1,4 @@
 ---
-- name: install Git on Ubuntu machine
+- name: to clean the vm
   become: yes
-  apt: name=git state=present
+  shell: rm -rf ./*

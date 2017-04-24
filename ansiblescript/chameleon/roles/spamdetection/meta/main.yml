@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: S17-IR-2041 and S17-IR-2036
-  description: emacs installation on Ubuntu 16.04
+  description: spam detection running on Ubuntu 14.04
   license:
     - MIT
   min_ansible_version: 2.0
