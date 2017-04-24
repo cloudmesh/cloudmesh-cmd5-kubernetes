@@ -1,23 +1,27 @@
 #required package for text mining
 if(!require("tm"))
-  install.packages("tm",repos = "http://cran.us.r-project.org")
+  install.packages("tm")
 
 #required package for SVM
 if(!require("e1071"))
-  install.packages("e1071",repos = "http://cran.us.r-project.org")
+  install.packages("e1071")
 
 #required package for KNN
-#if(!require("RWeka"))
-#  install.packages("RWeka", dependencies = TRUE,repos = "http://cran.us.r-project.org")
+if(!require("RWeka"))
+  install.packages("RWeka", dependencies = TRUE)
 
 #required package for Adaboost
 if(!require("ada"))
-  install.packages("ada",repos = "http://cran.us.r-project.org")
+  install.packages("ada")
 
-library(tm)
-library(e1071)
-#library(RWeka)
-library(ada)
+if(!require("rbenchmark"))
+  install.packages("rbenchmark")
+
+library("tm")
+library("e1071")
+library(RWeka)
+library("ada")
+library("rbenchmark")
 
 #Initialize random generator
 set.seed(1245)
@@ -104,9 +108,10 @@ set.seed(1245)
  }
 
  ############### End - Method definitions for the learning process ####################
+  
 #loading data. Original data is from http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection
  print("Uploading SMS Spam dataset")
- smstable<-read.csv('SMSSpamCollection.txt', header = FALSE, quote = "", sep = "\t", colClasses=c('character','character'))
+ smstable<-read.csv('SMSSpamCollection', header = FALSE, quote = "", sep = "\t", colClasses=c('character','character'))
  
  
  n = nrow(smstable);
@@ -114,10 +119,6 @@ set.seed(1245)
  
  training_data = smstable[mysample,]
  testing_data = smstable[-mysample,]
- 
-# dataTrain <- sample[ trainIndex,]
- 
-# dataTest  <- sample[-trainIndex,]
  
 #smstabletmp<-smstable
 smstabletmp<-training_data
@@ -207,3 +208,60 @@ highlyrepeatedwords<-findFreqTerms(dtm, 80)
 #These highly used words are used as an index to make VSM 
 #(vector space model) for trained data and test data
 
+#vectorized training data set
+vtrdata = vectorizeTrainingAndTestData(trdata, highlyrepeatedwords);
+
+#vectorized test data set 
+vtedata = vectorizeTrainingAndTestData(tedata, highlyrepeatedwords);
+
+#Naive Bayes to be added
+
+
+# Run different classification algorithms
+# differnet SVMs with different Kernels
+print("----------------------------------SVM-----------------------------------------")
+svmLinearAnalysis(vtrdata,vtedata);
+
+print("Polynomial Kernel")
+svmPolynomialAnalysis(vtrdata,vtedata);
+
+print("Radial Kernel")
+svmRadialAnalysis(vtrdata,vtedata);
+
+print("----------------------------------KNN-----------------------------------------")
+kNearestNeighbourAnalysis(vtrdata,vtedata)
+
+# benchmark different classifiers for given algorithms
+benchmark_data1 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
+                            svmRadialAnalysis(vtrdata, vtedata),
+                            order = NULL)
+
+benchmark_data2 = benchmark( replications = 100, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
+                            svmRadialAnalysis(vtrdata, vtedata),
+                            order = NULL)
+
+benchmark_data3 = benchmark( replications = 1000, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
+                            svmRadialAnalysis(vtrdata, vtedata),
+                            order = NULL)
+plot(benchmark_data)
+
+nreplications = c(10,100,1000)
+
+#plot(x = nreplications, y = time_elapsed)
+                      
+svmLinear = c(benchmark_data1$elapsed[1], benchmark_data2$elapsed[1], benchmark_data3$elapsed[1])
+svmPolynomial = c(benchmark_data1$elapsed[2], benchmark_data2$elapsed[2], benchmark_data3$elapsed[2])
+svmRadial = c(benchmark_data1$elapsed[3], benchmark_data2$elapsed[3], benchmark_data3$elapsed[3])
+
+# Give the chart file a name.
+png(file = "line_chart_3_lines.jpg")
+
+# Plot the bar chart.
+plot(x = nreplications,y = svmLinear,type = "o",col = "red", xlab = "Replications", ylab = "Time Elapsed", 
+     main = "Replications vs Time chart")
+
+lines(x = nreplications, y = svmPolynomial, type = "o", col = "blue")
+lines(x = nreplications, y = svmRadial, type = "o", col = "green")
+
+# Save the file.
+dev.off()
