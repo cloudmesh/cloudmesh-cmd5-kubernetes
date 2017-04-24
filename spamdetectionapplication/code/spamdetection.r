@@ -240,7 +240,7 @@ benchmark_data2 = benchmark( replications = 100, svmLinearAnalysis(vtrdata, vted
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
 
-benchmark_data3 = benchmark( replications = 1000, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
+benchmark_data3 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
 
