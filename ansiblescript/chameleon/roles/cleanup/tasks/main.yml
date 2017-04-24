@@ -1,0 +1,4 @@
+---
+- name: install Git on Ubuntu machine
+  become: yes
+  apt: name=git state=present

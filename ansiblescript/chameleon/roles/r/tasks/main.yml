@@ -1,6 +1,7 @@
 ---
 - name: to add the correct repository for R
-  shell: sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
+  become: yes
+  shell: sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
 
 - name: adding a public key to authenticate packages downloaded using R
   shell: gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
