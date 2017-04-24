@@ -1,0 +1,9 @@
+---
+- hosts: kubernetes
+  remote_user: cc
+  roles:
+    - git
+    - upgrade
+    - r
+    - spamdetection
+
