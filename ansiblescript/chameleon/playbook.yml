@@ -1,5 +1,0 @@
----
-- hosts: kubernetes
-  remote_user: cc
-  roles:
-    - project7.r
