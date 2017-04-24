@@ -243,22 +243,21 @@ benchmark_data2 = benchmark( replications = 100, svmLinearAnalysis(vtrdata, vted
 benchmark_data3 = benchmark( replications = 1000, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
-plot(benchmark_data)
 
+#code to plot the benchmarks in a jpg file
 nreplications = c(10,100,1000)
 
-#plot(x = nreplications, y = time_elapsed)
                       
 svmLinear = c(benchmark_data1$elapsed[1], benchmark_data2$elapsed[1], benchmark_data3$elapsed[1])
 svmPolynomial = c(benchmark_data1$elapsed[2], benchmark_data2$elapsed[2], benchmark_data3$elapsed[2])
 svmRadial = c(benchmark_data1$elapsed[3], benchmark_data2$elapsed[3], benchmark_data3$elapsed[3])
 
 # Give the chart file a name.
-png(file = "line_chart_3_lines.jpg")
+png(file = "benchmark_comparisions.jpg")
 
 # Plot the bar chart.
 plot(x = nreplications,y = svmLinear,type = "o",col = "red", xlab = "Replications", ylab = "Time Elapsed", 
-     main = "Replications vs Time chart")
+     main = "Replications vs Time")
 
 lines(x = nreplications, y = svmPolynomial, type = "o", col = "blue")
 lines(x = nreplications, y = svmRadial, type = "o", col = "green")
