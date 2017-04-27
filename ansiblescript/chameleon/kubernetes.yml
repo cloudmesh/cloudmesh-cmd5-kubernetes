@@ -1,0 +1,10 @@
+---
+- hosts: kubernetes-master
+  remote_user: cc
+  roles:
+   # - cleanup
+    - git
+    - upgrade
+   # - r
+   # - spamdetection
+    - kubernetes.setup

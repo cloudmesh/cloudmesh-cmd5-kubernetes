@@ -27,3 +27,7 @@
 - name: Fetch output from the remote and save to local
   synchronize: src="{{codepath}}" dest=output/ mode=pull rsync_path="sudo rsync"
 
+- name:
+  become: yes 
+  shell: scp ./ cc@129.114.32.114
+
