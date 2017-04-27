@@ -1,6 +1,6 @@
 ---
-- name: Update and upgrade
+- name: Update
   become: true
-  apt: update-cache=yes upgrade=dist
+  apt: update-cache=yes
 
 

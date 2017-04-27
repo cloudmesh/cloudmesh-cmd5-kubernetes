@@ -10,9 +10,9 @@ while read line; do
     ssh-keyscan $line >> ~/.ssh/known_hosts			# add ips to known_hosts
 done <ip_list
 sed -i 's/$/ ansible_ssh_user=cc/' ip_list
-echo [mesos-master]|cat > inventory.txt
+echo [kubernetes-master]|cat > inventory.txt
 head -n2 -q ip_list | tail -n1 >> inventory.txt 
-echo [mesos-agents]|cat >> inventory.txt
+echo [kubernetes-slave]|cat >> inventory.txt
 head -n1 -q ip_list >> inventory.txt
 tail -n1 -q ip_list >> inventory.txt
 mv inventory.txt ~/cloudmesh.kubernetes/ansiblescript/chameleon/inventory.txt

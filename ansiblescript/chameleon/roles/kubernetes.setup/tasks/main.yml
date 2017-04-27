@@ -11,7 +11,3 @@
   become: yes
   shell: dpkg -i debian/bin/unstable/xenial/*.deb
 
-- name: initialize kubernetes cluster
-  become: yes
-  shell: kubeadm init > master.txt
-

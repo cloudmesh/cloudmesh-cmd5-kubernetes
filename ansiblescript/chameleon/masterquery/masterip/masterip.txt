@@ -1,0 +1,19 @@
+<master/tokens> generated token: "725c10.a1a6b870725da295"
+<master/pki> created keys and certificates in "/etc/kubernetes/pki"
+<util/kubeconfig> created "/etc/kubernetes/kubelet.conf"
+<util/kubeconfig> created "/etc/kubernetes/admin.conf"
+<master/apiclient> created API client configuration
+<master/apiclient> created API client, waiting for the control plane to become ready
+<master/apiclient> all control plane components are healthy after 20.331362 seconds
+<master/apiclient> waiting for at least one node to register and become ready
+<master/apiclient> first node is ready after 2.505372 seconds
+<master/discovery> created essential addon: kube-discovery, waiting for it to become ready
+<master/discovery> kube-discovery is ready after 29.503778 seconds
+<master/addons> created essential addon: kube-proxy
+<master/addons> created essential addon: kube-dns
+
+Kubernetes master initialised successfully!
+
+You can now join any number of machines by running the following on each node:
+
+kubeadm join --token 725c10.a1a6b870725da295 192.168.0.135
