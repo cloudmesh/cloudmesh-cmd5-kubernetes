@@ -1,9 +1,4 @@
-- name: to store the join command in join variable
-  become: yes
-  shell: tail -n1 /home/cc/joinslaves/masterip.txt >> join.sh
-
-- name: execute the join command
-  become: yes
-  shell: sh ./join.sh
+- name: to get the dataset for the application
+  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection1.txt dest=/home/cc
 
 

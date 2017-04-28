@@ -108,10 +108,13 @@ set.seed(1245)
  }
 
  ############### End - Method definitions for the learning process ####################
-  
+ca = c('SMSSpamCollection.txt','SMSSpamCollection1.txt','SMSSpamCollection2.txt')
+cb = c("benchmark_comparisions.png","benchmark_comparisions1.png","benchmark_comparisions2.png")
+for (kk in 1:3) #Unsafe editing
+{  		#Unsafe editing
 #loading data. Original data is from http://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection
  print("Uploading SMS Spam dataset")
- smstable<-read.csv('SMSSpamCollection', header = FALSE, quote = "", sep = "\t", colClasses=c('character','character'))
+ smstable<-read.csv(ca[kk], header = FALSE, quote = "", sep = "\t", colClasses=c('character','character'))
  
  
  n = nrow(smstable);
@@ -236,16 +239,16 @@ benchmark_data1 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vteda
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
 
-benchmark_data2 = benchmark( replications = 100, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
+benchmark_data2 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
 
-benchmark_data3 = benchmark( replications = 1000, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
+benchmark_data3 = benchmark( replications = 10, svmLinearAnalysis(vtrdata, vtedata), svmPolynomialAnalysis(vtrdata, vtedata),
                             svmRadialAnalysis(vtrdata, vtedata),
                             order = NULL)
 
 #code to plot the benchmarks in a jpg file
-nreplications = c(10,100,1000)
+nreplications = c(10,10,10)
 
                       
 svmLinear = c(benchmark_data1$elapsed[1], benchmark_data2$elapsed[1], benchmark_data3$elapsed[1])
@@ -253,7 +256,7 @@ svmPolynomial = c(benchmark_data1$elapsed[2], benchmark_data2$elapsed[2], benchm
 svmRadial = c(benchmark_data1$elapsed[3], benchmark_data2$elapsed[3], benchmark_data3$elapsed[3])
 
 # Give the chart file a name.
-png(file = "benchmark_comparisions.jpg")
+png(file = cb[kk])
 
 # Plot the bar chart.
 plot(x = nreplications,y = svmLinear,type = "o",col = "red", xlab = "Replications", ylab = "Time Elapsed", 
@@ -261,6 +264,7 @@ plot(x = nreplications,y = svmLinear,type = "o",col = "red", xlab = "Replication
 
 lines(x = nreplications, y = svmPolynomial, type = "o", col = "blue")
 lines(x = nreplications, y = svmRadial, type = "o", col = "green")
-
+#print(i)
 # Save the file.
 dev.off()
+} #Unsafe editing

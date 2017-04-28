@@ -3,7 +3,7 @@
   file: path="{{applicationpath}}" state=directory
 
 - name: to get the dataset for the application
-  get_url: url=https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip dest=/home/cc
+  get_url: url=https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip dest=/home/ubuntu
 
 - name: to install unzip
   become: yes
