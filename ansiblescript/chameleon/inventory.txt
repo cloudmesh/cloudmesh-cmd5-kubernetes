@@ -1,5 +1,0 @@
-[kubernetes-master]
-129.114.111.61 ansible_ssh_user=cc
-[kubernetes-slave]
-129.114.32.175 ansible_ssh_user=cc
-129.114.33.91 ansible_ssh_user=cc

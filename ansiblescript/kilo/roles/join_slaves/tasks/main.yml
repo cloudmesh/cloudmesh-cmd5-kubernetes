@@ -8,8 +8,8 @@
 - copy:
     src: "{{sourcepath}}"
     dest: "{{joinpath}}"
-    owner: cc
-    group: cc
+    owner: ubuntu
+    group: ubuntu
     mode: 0644
 
 - name: to store the join command in join variable
