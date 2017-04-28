@@ -1,5 +1,5 @@
 ---
-- hosts: kubernetes-slave
+- hosts: kubernetes-master
   remote_user: cc
   roles:
     - test_ini_master 
