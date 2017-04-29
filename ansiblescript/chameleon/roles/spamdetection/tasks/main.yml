@@ -2,30 +2,23 @@
 - name: to make a directory for cloning the spam detection application
   file: path="{{applicationpath}}" state=directory
 
-- name: to get the dataset for the application
-  get_url: url=https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip dest=/home/cc
-
-- name: to install unzip
-  become: yes
-  apt: name=unzip state=present
-
-- name: to unzip the downloaded dataset
-  shell: unzip smsspamcollection.zip -d smsspamdataset
-
 - name: to change the directory to have the project folder
   shell: chdir="{{applicationpath}}" git clone "{{kubernetesrepo}}"
 
 - name: to modify the directory permission for installing the packages at site-library
   shell: sudo chmod 777 "{{rpackageinstallation}}"
 
-- name: to copy the dataset at the appropriate location
-  shell: cp "{{datasetpath}}" "{{codepath}}"
+- name: to get the dataset for the application 1st file
+  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection.txt dest=/home/cc
 
-- name: to get the dataset for the application
+- name: to get the dataset for the application 2nd file
   get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection1.txt dest=/home/cc
 
-- name: to get the dataset for the application
+- name: to get the dataset for the application 3rd file
   get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection2.txt dest=/home/cc
+
+- name: to copy the dataset at the appropriate location
+  shell: cp /home/cc/SMSSpamCollection.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection.txt
 
 - name: to copy the dataset at the appropriate location
   shell: cp /home/cc/SMSSpamCollection1.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection1.txt
