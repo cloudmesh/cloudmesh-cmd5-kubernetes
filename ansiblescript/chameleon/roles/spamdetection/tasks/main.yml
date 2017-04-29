@@ -20,7 +20,7 @@
 #- name: to copy the dataset at the appropriate location
 #  shell: cp /home/cc/SMSSpamCollection.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection.txt
 - name: to copy dataset to proper location
-  shell: cp '{{filepath}}" "{{codepath}}" 
+  shell: cp "{{filepath}}" "{{codepath}}" 
 
 - name: to change the directory to execute the application
   shell: chdir="{{codepath}}" Rscript spamdetection.r
