@@ -5,26 +5,22 @@
 - name: to change the directory to have the project folder
   shell: chdir="{{applicationpath}}" git clone "{{kubernetesrepo}}"
 
+- name: to make a directory for cloning the spam detection application
+  file: path="{{datasetpath}}" state=directory
+
+- name: to change the directory to have the project folder
+  shell: chdir="{{datasetpath}}" git clone "{{datasetrepo}}"
+
 - name: to modify the directory permission for installing the packages at site-library
   shell: sudo chmod 777 "{{rpackageinstallation}}"
 
-- name: to get the dataset for the application 1st file
-  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection.txt dest=/home/cc
+#- name: to get the dataset for the application 1st file
+#  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection.txt dest=/home/cc
 
-- name: to get the dataset for the application 2nd file
-  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection1.txt dest=/home/cc
-
-- name: to get the dataset for the application 3rd file
-  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection2.txt dest=/home/cc
-
-- name: to copy the dataset at the appropriate location
-  shell: cp /home/cc/SMSSpamCollection.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection.txt
-
-- name: to copy the dataset at the appropriate location
-  shell: cp /home/cc/SMSSpamCollection1.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection1.txt
-
-- name: to copy the dataset at the appropriate location
-  shell: cp /home/cc/SMSSpamCollection2.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection2.txt
+#- name: to copy the dataset at the appropriate location
+#  shell: cp /home/cc/SMSSpamCollection.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection.txt
+- name: to copy dataset to proper location
+  shell: cp '{{filepath}}" "{{codepath}}" 
 
 - name: to change the directory to execute the application
   shell: chdir="{{codepath}}" Rscript spamdetection.r

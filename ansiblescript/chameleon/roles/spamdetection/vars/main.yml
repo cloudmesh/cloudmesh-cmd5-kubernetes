@@ -1,7 +1,10 @@
 ---
 # vars file for spam detection
 applicationpath: /home/cc/spamdetection
+datasetpath: /home/cc/dataset
 kubernetesrepo: https://github.com/cloudmesh/cloudmesh.kubernetes.git
+datasetrepo: https://github.com/vorasagar7/datasetForBigDataProject.git
 rpackageinstallation: /usr/local/lib/R/site-library
 codepath: /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code
-datasetpath: smsspamdataset/SMSSpamCollection
+datasetpath: /home/cc/dataset/datasetForBigDataProject
+filepath: /home/cc/dataset/datasetForBigDataProject/*
