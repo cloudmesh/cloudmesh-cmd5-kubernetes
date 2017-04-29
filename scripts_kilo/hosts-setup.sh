@@ -14,7 +14,7 @@ done <ip_list
 sed -i 's/$/ ansible_ssh_user=ubuntu/' ip_list
 echo [kubernetes-master]|cat > inventory.txt
 head -n2 -q ip_list | tail -n1 >> inventory.txt 
-echo [kubernetes-agents]|cat >> inventory.txt
+echo [kubernetes-slave]|cat >> inventory.txt
 head -n1 -q ip_list >> inventory.txt
 tail -n1 -q ip_list >> inventory.txt
 mv inventory.txt ~/cloudmesh.kubernetes/ansiblescript/kilo/inventory.txt
