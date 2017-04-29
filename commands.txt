@@ -1,2 +1,5 @@
-cm secgroup add kubernetes-secgroup rule1 9989 9989 tcp 0.0.0.0/0
-cm secgroup add kubernetes-secgroup rule2 9987 9989 tcp 0.0.0.0/0
+cm secgroup add kub-project7 rule1 22 22 tcp 0.0.0.0/0
+cm secgroup add kub-project7 rule2 80 80 tcp 0.0.0.0/0
+cm secgroup add kub-project7 rule3 443 443 tcp 0.0.0.0/0
+cm secgroup add kub-project7 rule4 9989 9989 tcp 0.0.0.0/0
+cm secgroup add kub-project7 rule5 9987 9987 tcp 0.0.0.0/0
