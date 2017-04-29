@@ -8,9 +8,6 @@ rm ~/.ssh/known_hosts
 touch ~/.ssh/known_hosts
 while read line; do
     ssh-keyscan -t rsa $line >> ~/.ssh/known_hosts			# add ips to known_hosts
-    echo $line >> abcaddress.txt
-    ssh-keyscan $line >> abc.txt
-    echo "hi" >> abc.txt
 done <ip_list
 sed -i 's/$/ ansible_ssh_user=cc/' ip_list
 echo [kubernetes-master]|cat > inventory.txt
