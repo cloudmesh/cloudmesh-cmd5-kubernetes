@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spamdetectionimage
+spec:
+  containers:
+    - name: container1
+      image: rahpsing/kubernetesi524:spamdetectionapplication
+      args:
+      - sleep
+      - "100"
