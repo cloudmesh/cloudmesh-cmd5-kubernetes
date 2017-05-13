@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spamdetectionapplication
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: echo
+    spec:
+      containers:
+      - name: container2
+        image: rahpsing/kubernetesi524:spamdetectionapplication
+        ports:
+        - containerPort: 80
