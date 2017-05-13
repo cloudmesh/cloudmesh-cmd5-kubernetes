@@ -1,0 +1,27 @@
+---
+- name: to make a directory for cloning the kubernetes repo application
+  file: path="{{kubernetespath}}" state=directory
+
+- name: to change the directory to have the project folder
+  shell: chdir="{{kubernetespath}}" git clone "{{kubernetesrepo}}"
+
+- name: to copy the pod yaml files to the appropriate location
+  become: yes
+  shell: cp "{{podyamlfilepath}}" "{{homepath}}"
+
+- name: to copy the deployment yaml files to the appropriate location
+  become: yes
+  shell: cp "{{deploymentyamlfilepath}}" "{{homepath}}"
+
+- name: installing daemonset for dns
+  become: yes
+  shell: kubectl apply -f https://git.io/weave-kube
+
+- name: creating a pod
+  become: yes
+  shell: kubectl create -f pod.yaml
+
+- name: creating a deployment
+  become: yes
+  shell: kubectl create -f deployment.yaml
+
