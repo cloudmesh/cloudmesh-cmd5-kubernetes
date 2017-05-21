@@ -25,7 +25,7 @@ library(rbenchmark)
 
 #Initialize random generator
 set.seed(1245)
-
+sink("kubernetesoutput.txt")
  ############### Method definitions for the learning process ####################
 
  #This function makes vector (Vector Space Model) from text message using highly repeated words
