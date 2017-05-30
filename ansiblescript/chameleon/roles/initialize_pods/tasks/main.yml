@@ -19,7 +19,7 @@
 
 - name: run the application
   become: yes
-  shell: kubectl run spamdetectionapplication --image=rahpsing/kubernetesi524:preimport
+  shell: kubectl run spamdetectionapplication --image=rahpsing/kubernetesi524:spamdetectionapplication
 
 - name: creating a deployment
   become: yes
