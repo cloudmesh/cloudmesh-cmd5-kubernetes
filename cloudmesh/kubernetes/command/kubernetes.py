@@ -12,6 +12,8 @@ import os
 class KubernetesCommand(PluginCommand):
 	def make_hosts(self):
 		path = os.getcwd()
+		print("saving the hsot file at")
+		print(path)
 		os.system('cm cluster inventory > ' + path + '/hosts.txt')
 		f = open(path + '/hosts.txt', 'r')
 		w = open(path + '/hosts', 'w')
@@ -35,7 +37,7 @@ class KubernetesCommand(PluginCommand):
 				w.write("node{} host=".format(i) + line)
 		f.close()
 		w.close()
-		os.system('rm -f hosts.txt')
+		#os.system('rm -f hosts.txt')
 	
 	
 	@command
