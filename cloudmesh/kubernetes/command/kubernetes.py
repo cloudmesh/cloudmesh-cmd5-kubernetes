@@ -16,29 +16,23 @@ class KubernetesCommand(PluginCommand):
 		print(path)
 		os.system('cm cluster inventory > ' + path + '/hosts.txt')
 		f = open(path + '/hosts.txt', 'r')
-		w = open(path + '/hosts', 'w')
-		w.write("[cluster]\n")
+		w = open(path + '/inventory.txt', 'w')
+		w.write("[kubernetes-slave]\n")
 		for i, line in enumerate(f):
-			if i <= 0:
+			if i <= 1:
 				continue
 			else:
 				w.write("node{} host=".format(i) + line)
 		f.close()
-		w.write("\n[nimbus]\n")
+		w.write("\n[kubernetes-master]\n")
 		f = open(path + '/hosts.txt', 'r')
 		for i, line in enumerate(f):
 			if i == 1:
 				w.write("node{} host=".format(i) + line)
 		f.close()
-		w.write("\n[supervisors]\n")
-		f = open(path + '/hosts.txt', 'r')
-		for i, line in enumerate(f):
-			if i >= 2:
-				w.write("node{} host=".format(i) + line)
-		f.close()
 		w.close()
-		#os.system('rm -f hosts.txt')
-	
+		os.system('rm -f hosts.txt')
+		os.system('mv inventory.txt ~/cloudmesh.kubernetes/ansiblescript/inventory.txt')
 	
 	@command
 	def do_kubernetes(self, args, arguments):
@@ -115,11 +109,11 @@ class KubernetesCommand(PluginCommand):
 				self.make_hosts()
 
 				# Run ansible script
-				#command = 'ansible-playbook -i hosts storm.yml -e "cloud={}"'.format(default["storm","cloud"])
-				#os.system(command)
+				command = '~/cloudmesh.kubernetes/scripts/deploy-kubernetes.sh'
+				os.system(command)
 
-				print("Ansible tasks completed.")
-				print("Cluster {} created and storm is running on cluster.".format(default["kubernetes","name"]))
+				print("Ansible tasks have been successfully completed.")
+				print("Cluster {} created and Kubernetes is running on cluster.".format(default["kubernetes","name"]))
 				default["kubernetes","deploy"] = True
 			else:
 				print("Please set all the required variables.") 
