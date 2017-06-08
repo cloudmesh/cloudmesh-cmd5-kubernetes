@@ -1,0 +1,7 @@
+---
+- hosts: kubernetes-master
+  remote_user: cc
+  roles:
+    - upgrade
+    - r
+    - spamdetection

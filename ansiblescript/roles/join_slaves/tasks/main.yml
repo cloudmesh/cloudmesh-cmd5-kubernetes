@@ -1,0 +1,23 @@
+
+- name: to make a directory for storing the join statement
+  file: path="{{joinpath}}" state=directory
+
+- name: to modify the directory permission for installing the packages at site-library
+  shell: sudo chmod 777 "{{joinpath}}"
+
+- copy:
+    src: "{{sourcepath}}"
+    dest: "{{joinpath}}"
+    owner: cc
+    group: cc
+    mode: 0644
+
+- name: to store the join command in join variable
+  become: yes
+  shell: tail -n1 "{{sourcequerypath}}" >> join.sh
+
+- name: execute the join command
+  become: yes
+  shell: sh ./join.sh
+
+

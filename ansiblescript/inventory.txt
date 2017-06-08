@@ -1,0 +1,6 @@
+[kubernetes-slave]
+node2 host=savora-136 ansible_ssh_host="129.114.32.211" ansible_ssh_user="cc"
+node3 host=savora-137 ansible_ssh_host="129.114.32.237" ansible_ssh_user="cc"
+
+[kubernetes-master]
+node1 host=savora-135 ansible_ssh_host="129.114.32.75" ansible_ssh_user="cc"

@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: S17-IR-2041 and S17-IR-2036
+  description: initialize master on kubernetes
+  license:
+    - MIT
+  min_ansible_version: 2.0
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+  galaxy_tags:
+    - development
+
+dependencies: []

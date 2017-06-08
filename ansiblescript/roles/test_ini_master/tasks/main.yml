@@ -1,0 +1,13 @@
+- name: to get the dataset for the application
+  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection1.txt dest=/home/cc
+
+- name: to get the dataset for the application
+  get_url: url=https://github.com/vorasagar7/datasetForBigDataProject/blob/master/SMSSpamCollection2.txt dest=/home/cc
+
+- name: to copy the dataset at the appropriate location
+  shell: cp /home/cc/SMSSpamCollection1.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection1.txt
+
+- name: to copy the dataset at the appropriate location
+  shell: cp /home/cc/SMSSpamCollection2.txt /home/cc/spamdetection/cloudmesh.kubernetes/spamdetectionapplication/code/SMSSpamCollection2.txt
+
+
