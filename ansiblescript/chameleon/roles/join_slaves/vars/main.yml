@@ -1,6 +1,0 @@
----
-# vars file for spam detection
-joinpath: /home/cc/joinslaves
-sourcepath: ~/cloudmesh.kubernetes/ansiblescript/chameleon/masterquery/masterip/masterip.txt
-sourcequerypath: /home/cc/joinslaves/masterip.txt
-

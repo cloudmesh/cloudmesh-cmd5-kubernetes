@@ -1,4 +1,0 @@
----
-- name: to clean the vm
-  become: yes
-  file: path=./* state=absent

@@ -1,9 +1,0 @@
-- name: to store the join command in join variable
-  become: yes
-  shell: tail -n1 /home/ubuntu/joinslaves/masterip.txt >> join.sh
-
-- name: execute the join command
-  become: yes
-  shell: sh ./join.sh
-
-

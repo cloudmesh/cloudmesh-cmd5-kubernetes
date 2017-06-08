@@ -1,5 +1,0 @@
----
-# vars file for spam detection
-masteroutputpath: /home/ubuntu/masterip
-masteroutputfilepath: /home/ubuntu/masterip/masterip.txt
-

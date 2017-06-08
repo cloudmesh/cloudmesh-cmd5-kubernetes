@@ -1,5 +1,0 @@
----
-# vars file for spam detection
-masteroutputpath: /home/cc/masterip
-masteroutputfilepath: /home/cc/masterip/masterip.txt
-

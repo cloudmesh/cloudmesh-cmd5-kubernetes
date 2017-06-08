@@ -1,5 +1,0 @@
----
-- hosts: kubernetes-master
-  remote_user: ubuntu
-  roles:
-    - initialize_master 

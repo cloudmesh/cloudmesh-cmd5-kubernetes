@@ -1,4 +1,0 @@
----
-# tasks file for inventory
-    - name: Create inventory file using hosts
-      shell: sh ~/cloudmesh.kubernetes/scripts_chameleon/hosts-setup.sh

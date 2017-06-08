@@ -1,5 +1,0 @@
----
-- hosts: kubernetes-master
-  remote_user: cc
-  roles:
-    - initialize_pods 

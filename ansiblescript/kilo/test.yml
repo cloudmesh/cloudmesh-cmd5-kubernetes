@@ -1,5 +1,0 @@
----
-- hosts: kubernetes-slave
-  remote_user: ubuntu
-  roles:
-    - test_ini_master 
