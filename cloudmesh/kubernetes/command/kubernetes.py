@@ -12,7 +12,8 @@ import os
 class KubernetesCommand(PluginCommand):
 	def make_hosts(self):
 		path = os.getcwd()
-		print("saving the hsot file at")
+		os.system('~/cloudmesh.kubernetes/scripts/knownhostfileaddition.sh')
+		print("saving the host file at")
 		print(path)
 		os.system('cm cluster inventory > ' + path + '/hosts.txt')
 		f = open(path + '/hosts.txt', 'r')
@@ -31,7 +32,7 @@ class KubernetesCommand(PluginCommand):
 				w.write("node{} host=".format(i) + line)
 		f.close()
 		w.close()
-		os.system('rm -f hosts.txt')
+		#os.system('rm -f hosts.txt')
 		os.system('mv inventory.txt ~/cloudmesh.kubernetes/ansiblescript/inventory.txt')
 	
 	@command
@@ -51,7 +52,7 @@ class KubernetesCommand(PluginCommand):
 
 		Arguments:
 		NAME	name of the cluster
-		SIZE	size of the cluster
+		SIZE	size of the clusteri
 		IMAGE	image of the cluster
 		FLAVOR	flavor of the vm
 		CLOUD	cloud on which the cluster will be created
