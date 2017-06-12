@@ -32,7 +32,7 @@ class KubernetesCommand(PluginCommand):
 				w.write("node{} host=".format(i) + line)
 		f.close()
 		w.close()
-		#os.system('rm -f hosts.txt')
+		os.system('rm -f hosts.txt')
 		os.system('mv inventory.txt ~/cloudmesh.kubernetes/ansiblescript/inventory.txt')
 	
 	@command
@@ -93,9 +93,12 @@ class KubernetesCommand(PluginCommand):
 		elif arguments.cluster and arguments.deploy:
 			if default["kubernetes","name"] is not None and default["kubernetes","size"] is not None and default["kubernetes","image"] is not None and default["kubernetes","flavor"] is not None and default["kubernetes","cloud"] is not None:
 				
+				stopwatch = StopWatch()
+				stopwatch.start('Kubernetes')				
+
 				print("Creating cluster {}...".format(default["kubernetes","name"]))
 				# Define a cluster
-				command = "cm cluster define --name {} --count {} --image {} --flavor {} -C {}".format(default["kubernetes","name"], default["kubernetes","size"], default["kubernetes","image"], default["kubernetes","flavor"], default["kubernetes","cloud"])
+				command = "cm cluster define --name {} --count {} --image {} --secgroup=mesos-secgroup --flavor {} -C {}".format(default["kubernetes","name"], default["kubernetes","size"], default["kubernetes","image"], default["kubernetes","flavor"], default["kubernetes","cloud"])
 				os.system(command)
 
 				# Use defined cluster
@@ -112,6 +115,9 @@ class KubernetesCommand(PluginCommand):
 				# Run ansible script
 				command = '~/cloudmesh.kubernetes/scripts/deploy-kubernetes.sh'
 				os.system(command)
+
+				stopwatch.stop('Kubernetes')
+				print('Time Taken:' + str(stopwatch.get('Kubernetes')))
 
 				print("Ansible tasks have been successfully completed.")
 				print("Cluster {} created and Kubernetes is running on cluster.".format(default["kubernetes","name"]))
