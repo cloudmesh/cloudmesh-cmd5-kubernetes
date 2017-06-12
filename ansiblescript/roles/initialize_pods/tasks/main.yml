@@ -12,6 +12,8 @@
 #- name: to copy the deployment yaml files to the appropriate location
 #  become: yes
 #  shell: cp "{{deploymentyamlfilepath}}" "{{homepath}}"
+- name: to make a directory for storing the slave hostname address
+  file: path="{{hostnamepath}}" state=directory
 
 - name: installing daemonset for dns
   become: yes
@@ -19,8 +21,7 @@
 
 - name: run the application
   become: yes
-  shell: kubectl run spamdetectionapplication --image=rahpsing/kubernetesi524:spamdetectionapplication
+  shell: kubectl run spamdetectionapplication1 --image=rahpsing/kubernetesi524:spamdetectionapplication
 
-- name: creating a deployment
-  become: yes
-  shell: kubectl get pods| grep spamdetectionapplication
+- name: to change the directory to have the project folder
+  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication1 | cut -d '/' -f 2- | kubectl describe pod | grep Node:| cut -d '/' -f 1 | cut -d ':' -f 2 | tr -d " \t\n\r" >> hostName.txt

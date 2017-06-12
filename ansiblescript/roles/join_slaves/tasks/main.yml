@@ -1,8 +1,10 @@
+- name: to modify the directory permission of the home directory
+  shell: sudo chmod 777 /home
 
 - name: to make a directory for storing the join statement
   file: path="{{joinpath}}" state=directory
 
-- name: to modify the directory permission for installing the packages at site-library
+- name: to modify the directory permission for joining the slaves
   shell: sudo chmod 777 "{{joinpath}}"
 
 - copy:
@@ -12,7 +14,7 @@
     group: cc
     mode: 0644
 
-- name: to store the join command in join variable
+- name: to store the join command in join variable and do time pass
   become: yes
   shell: tail -n1 "{{sourcequerypath}}" >> join.sh
 

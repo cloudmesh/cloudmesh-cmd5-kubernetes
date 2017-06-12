@@ -1,8 +1,13 @@
 ---
 # vars file for initializing the pods
-kubernetespath: /home/cc/kubernetes
+kubernetespath: /home/kubernetes
 kubernetesrepo: https://github.com/cloudmesh/cloudmesh.kubernetes.git
-podyamlfilepath: /home/cc/kubernetes/cloudmesh.kubernetes/kubernetes_yaml_files/pod_yaml/pod.yaml
-homepath: /home/cc
-deploymentyamlfilepath: /home/cc/kubernetes/cloudmesh.kubernetes/kubernetes_yaml_files/deployment_yaml/deployment.yaml
+podyamlfilepath: /home/kubernetes/cloudmesh.kubernetes/kubernetes_yaml_files/pod_yaml/pod.yaml
+homepath: /home
+deploymentyamlfilepath: /home/kubernetes/cloudmesh.kubernetes/kubernetes_yaml_files/deployment_yaml/deployment.yaml
+hostnamepath: /home/hostname
+hostnamefilepath: /home/hostname/hostName.txt
+appnamepath: /home/appName
+appnamefilepath: /home/hostname/appName.txt
+
 
