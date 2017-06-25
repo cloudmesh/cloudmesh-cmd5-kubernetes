@@ -1,5 +1,5 @@
 ---
 - hosts: kubernetes-master
-  remote_user: cc
+  become: True
   roles:
-    - initialize_master 
+    - { role: initialize_master, cloud: '{{cloud}}'}

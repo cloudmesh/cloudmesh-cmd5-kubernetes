@@ -1,5 +1,5 @@
 ---
 - hosts: kubernetes-slave
-  remote_user: cc
+  become: True
   roles:
-    - join_slaves 
+    - { role: join_slaves, cloud: '{{cloud}}'} 

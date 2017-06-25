@@ -25,3 +25,15 @@
 
 - name: to change the directory to have the project folder
   shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication1 | cut -d '/' -f 2- | kubectl describe pod | grep Node:| cut -d '/' -f 1 | cut -d ':' -f 2 | tr -d " \t\n\r" >> hostName.txt
+
+- name: to change the directory to have the project folder
+  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication1 | cut -d '/' -f 2- >> appName.txt
+
+- name: Fetch output from the remote and save to local
+  become: yes
+  synchronize: src="{{hostnamefilepath}}" dest=files/ mode=pull rsync_path="sudo rsync"
+
+- name: Fetch output from the remote and save to local
+  become: yes
+  synchronize: src="{{appnamefilepath}}" dest=files/ mode=pull rsync_path="sudo rsync"
+

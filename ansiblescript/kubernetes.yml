@@ -1,8 +1,8 @@
 ---
 - hosts: kubernetes-master kubernetes-slave
-  remote_user: cc
+  become: True
   roles:
-    - cleanup
-    - git
-    - upgrade
-    - kubernetes.setup
+    - { role: cleanup, cloud: '{{cloud}}'}
+    - { role: git, cloud: '{{cloud}}'}
+    - { role: upgrade, cloud: '{{cloud}}'}
+    - { role: kubernetes.setup, cloud: '{{cloud}}'}
