@@ -15,19 +15,22 @@
 - name: to make a directory for storing the slave hostname address
   file: path="{{hostnamepath}}" state=directory
 
+- name: to modify the directory permission for joining the slaves
+  shell: sudo chmod 777 "{{hostnamepath}}"
+
 - name: installing daemonset for dns
   become: yes
   shell: kubectl apply -f https://git.io/weave-kube
 
 - name: run the application
   become: yes
-  shell: kubectl run spamdetectionapplication1 --image=rahpsing/kubernetesi524:spamdetectionapplication
+  shell: kubectl run spamdetectionapplication2 --image=rahpsing/kubernetesi524:spamdetectionapplication
 
 - name: to change the directory to have the project folder
-  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication1 | cut -d '/' -f 2- | kubectl describe pod | grep Node:| cut -d '/' -f 1 | cut -d ':' -f 2 | tr -d " \t\n\r" >> hostName.txt
+  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication2 | cut -d '/' -f 2- | kubectl describe pod | grep Node:| cut -d '/' -f 1 | cut -d ':' -f 2 | tr -d " \t\n\r" >> hostName.txt
 
 - name: to change the directory to have the project folder
-  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication1 | cut -d '/' -f 2- >> appName.txt
+  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication2 | cut -d '/' -f 2- >> appName.txt
 
 - name: Fetch output from the remote and save to local
   become: yes
@@ -36,4 +39,33 @@
 - name: Fetch output from the remote and save to local
   become: yes
   synchronize: src="{{appnamefilepath}}" dest=files/ mode=pull rsync_path="sudo rsync"
+
+- copy:
+    src: "{{sourceinventorypath}}"
+    dest: "{{destinventorypath}}"
+    mode: 0644
+
+- copy:
+    src: "{{sourcescriptpath}}"
+    dest: "{{destscriptpath}}"
+    mode: 0644
+
+- name: to modify the directory permission for joining the slaves
+  shell: sudo chmod 777 /home/hostname/generateIP.sh
+
+- name: execute the join command
+  become: yes
+  shell: sh /home/hostname/generateIP.sh
+
+- copy:
+    src: "{{finalscriptpath}}"
+    dest: "{{destfinalscriptpath}}"
+    mode: 0644
+
+- name: to modify the directory permission for joining the slaves
+  shell: sudo chmod 777 ~/getOutput.sh
+
+- name: execute the join command
+  become: yes
+  shell: sh ./getOutput.sh
 

@@ -10,8 +10,6 @@
 - copy:
     src: "{{sourcepath}}"
     dest: "{{joinpath}}"
-    owner: cc
-    group: cc
     mode: 0644
 
 - name: to store the join command in join variable and do time pass

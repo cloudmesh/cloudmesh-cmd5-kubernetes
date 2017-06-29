@@ -9,5 +9,11 @@ hostnamepath: /home/hostname
 hostnamefilepath: /home/hostname/hostName.txt
 appnamepath: /home/appName
 appnamefilepath: /home/hostname/appName.txt
-
+joinpath: /home/joinslaves
+sourceinventorypath: ~/cloudmesh.kubernetes/ansiblescript/inventory.txt
+destinventorypath: /home/hostname/inventory.txt
+sourcescriptpath: ~/cloudmesh.kubernetes/scripts/generateIP.sh
+destscriptpath: /home/hostname/generateIP.sh
+finalscriptpath: ~/cloudmesh.kubernetes/scripts/getOutput.sh
+destfinalscriptpath: ~/getOutput.sh
 
