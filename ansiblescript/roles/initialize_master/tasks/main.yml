@@ -1,5 +1,6 @@
 - name: to modify the directory permission of the home directory
-  shell: sudo chmod 777 /home
+  become: yes
+  shell: chmod 777 /home
 
 - name: to make a directory for storing the master's IP address
   file: path="{{masteroutputpath}}" state=directory

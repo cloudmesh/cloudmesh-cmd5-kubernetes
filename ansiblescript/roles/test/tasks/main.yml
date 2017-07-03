@@ -1,0 +1,22 @@
+---
+#- name: to make a directory for cloning the kubernetes repo application
+#  file: path="{{kubernetespath}}" state=directory
+#
+#- name: to change the directory to have the project folder
+#  shell: chdir="{{kubernetespath}}" git clone "{{kubernetesrepo}}"
+#
+#- name: to copy the pod yaml files to the appropriate location
+#  become: yes
+#  shell: cp "{{podyamlfilepath}}" "{{homepath}}"
+
+#- name: to copy the deployment yaml files to the appropriate location
+#  become: yes
+#  shell: cp "{{deploymentyamlfilepath}}" "{{homepath}}"
+- name: execute the join command
+  become: yes
+  shell: cp /home/hostname/generateIP.sh ~/
+
+- name: execute the join command
+  become: yes
+  shell: sh ./generateIP.sh
+

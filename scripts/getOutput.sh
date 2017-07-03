@@ -1,10 +1,10 @@
 #!/bin/sh
 # My first Script
-value=`cat ~/finalIP`
-echo -n "curl https://" >> fetchOutput.txt
-echo -n $value >> fetchOutput.txt
-echo -n ":10250/containerLogs/default/" >> fetchOutput.txt
-value1=`cat /home/hostname/appName.txt`
-echo -n $value1 >> fetchOutput.txt
-echo -n "/spamdetectionapplication2 --insecure > output.txt" >> fetchOutput.txt
+value=`cat /home/files/finalIP`
+echo -n "curl https://" >> /home/files/fetchOutput.sh
+echo -n $value >> /home/files/fetchOutput.sh
+echo -n ":10250/containerLogs/default/" >> /home/files/fetchOutput.sh
+value1=`cat /home/files/appName.txt`
+echo -n $value1 >> /home/files/fetchOutput.sh
+echo -n "/spamdetectionapplication2 --insecure > /home/files/output.txt" >> /home/files/fetchOutput.sh
 

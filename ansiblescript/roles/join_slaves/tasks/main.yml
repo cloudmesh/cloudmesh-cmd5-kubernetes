@@ -1,11 +1,13 @@
 - name: to modify the directory permission of the home directory
-  shell: sudo chmod 777 /home
+  become: yes
+  shell: chmod 777 /home
 
 - name: to make a directory for storing the join statement
   file: path="{{joinpath}}" state=directory
 
 - name: to modify the directory permission for joining the slaves
-  shell: sudo chmod 777 "{{joinpath}}"
+  become: yes
+  shell: chmod 777 "{{joinpath}}"
 
 - copy:
     src: "{{sourcepath}}"

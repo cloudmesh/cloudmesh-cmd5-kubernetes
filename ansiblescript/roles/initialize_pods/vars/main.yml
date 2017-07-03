@@ -5,15 +5,14 @@ kubernetesrepo: https://github.com/cloudmesh/cloudmesh.kubernetes.git
 podyamlfilepath: /home/kubernetes/cloudmesh.kubernetes/kubernetes_yaml_files/pod_yaml/pod.yaml
 homepath: /home
 deploymentyamlfilepath: /home/kubernetes/cloudmesh.kubernetes/kubernetes_yaml_files/deployment_yaml/deployment.yaml
-hostnamepath: /home/hostname
-hostnamefilepath: /home/hostname/hostName.txt
-appnamepath: /home/appName
-appnamefilepath: /home/hostname/appName.txt
+filespath: /home/files
+hostnamefilepath: /home/files/hostName.txt
+appnamefilepath: /home/files/appName.txt
 joinpath: /home/joinslaves
 sourceinventorypath: ~/cloudmesh.kubernetes/ansiblescript/inventory.txt
-destinventorypath: /home/hostname/inventory.txt
+destinventorypath: /home/files/inventory.txt
 sourcescriptpath: ~/cloudmesh.kubernetes/scripts/generateIP.sh
-destscriptpath: /home/hostname/generateIP.sh
+destscriptpath: /home/files/generateIP.sh
 finalscriptpath: ~/cloudmesh.kubernetes/scripts/getOutput.sh
-destfinalscriptpath: ~/getOutput.sh
+destfinalscriptpath: /home/files/getOutput.sh
 

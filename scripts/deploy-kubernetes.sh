@@ -4,5 +4,8 @@ ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/kubernetes.yml -i ~/cloudm
 ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/master.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt
 sh ~/cloudmesh.kubernetes/scripts/join-slaves.sh
 ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/runningapplicationonkubernetes.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt
+sudo sh ~/cloudmesh.kubernetes/scripts/copy.sh
+sudo sh ~/cloudmesh.kubernetes/scripts/getIPAddressFromHostName.sh
+sudo sh ~/cloudmesh.kubernetes/scripts/getOutput.sh
 #ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/spamdetectionapp.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt
 #sh ~/cloudmesh.kubernetes/scripts/remove-all-clusters.sh

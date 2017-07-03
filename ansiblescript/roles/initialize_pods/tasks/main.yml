@@ -1,71 +1,79 @@
 ---
-#- name: to make a directory for cloning the kubernetes repo application
-#  file: path="{{kubernetespath}}" state=directory
-#
-#- name: to change the directory to have the project folder
-#  shell: chdir="{{kubernetespath}}" git clone "{{kubernetesrepo}}"
-#
-#- name: to copy the pod yaml files to the appropriate location
-#  become: yes
-#  shell: cp "{{podyamlfilepath}}" "{{homepath}}"
+- name: to make a directory for storing the new created files
+  file: path="{{filespath}}" state=directory
 
-#- name: to copy the deployment yaml files to the appropriate location
-#  become: yes
-#  shell: cp "{{deploymentyamlfilepath}}" "{{homepath}}"
-- name: to make a directory for storing the slave hostname address
-  file: path="{{hostnamepath}}" state=directory
-
-- name: to modify the directory permission for joining the slaves
-  shell: sudo chmod 777 "{{hostnamepath}}"
+- name: to modify the directory permission for those files
+  shell: sudo chmod 777 "{{filespath}}"
 
 - name: installing daemonset for dns
   become: yes
   shell: kubectl apply -f https://git.io/weave-kube
 
-- name: run the application
+- name: to wait for 1 minutes
+  become: yes
+  pause: minutes=3
+
+- name: run the application using kubectl command
   become: yes
   shell: kubectl run spamdetectionapplication2 --image=rahpsing/kubernetesi524:spamdetectionapplication
 
-- name: to change the directory to have the project folder
-  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication2 | cut -d '/' -f 2- | kubectl describe pod | grep Node:| cut -d '/' -f 1 | cut -d ':' -f 2 | tr -d " \t\n\r" >> hostName.txt
-
-- name: to change the directory to have the project folder
-  shell: chdir="{{hostnamepath}}" kubectl get pods -o=name| grep spamdetectionapplication2 | cut -d '/' -f 2- >> appName.txt
-
-- name: Fetch output from the remote and save to local
+- name: to wait for 1 minutes
   become: yes
-  synchronize: src="{{hostnamefilepath}}" dest=files/ mode=pull rsync_path="sudo rsync"
+  pause: minutes=3
 
-- name: Fetch output from the remote and save to local
-  become: yes
-  synchronize: src="{{appnamefilepath}}" dest=files/ mode=pull rsync_path="sudo rsync"
+- name: to change the directory for creating the required file for the hostname
+  shell: chdir="{{filespath}}" kubectl get pods -o=name| grep spamdetectionapplication2 | cut -d '/' -f 2- | kubectl describe pod | grep Node:| cut -d '/' -f 1 | cut -d ':' -f 2 | tr -d " \t\n\r" >> hostName.txt
 
-- copy:
+- name: to change the directory for creating the required file for the application name
+  shell: chdir="{{filespath}}" kubectl get pods -o=name| grep spamdetectionapplication2 | cut -d '/' -f 2- >> appName.txt
+
+- name: to send the inventory file to remote master host
+  copy:
     src: "{{sourceinventorypath}}"
     dest: "{{destinventorypath}}"
     mode: 0644
 
-- copy:
+- name: to send the shell file to remote master host for generating the IP address from hostname
+  copy:
     src: "{{sourcescriptpath}}"
     dest: "{{destscriptpath}}"
     mode: 0644
 
-- name: to modify the directory permission for joining the slaves
-  shell: sudo chmod 777 /home/hostname/generateIP.sh
-
-- name: execute the join command
+- name: to modify the directory permission for making the shell file executable
   become: yes
-  shell: sh /home/hostname/generateIP.sh
+  shell: sudo chmod 777 "{{destscriptpath}}"
 
-- copy:
+- name: execute the generate IP address script
+  become: yes
+  shell: sh /home/files/generateIP.sh
+
+- name: to send the final shell file which creates the command for fetching the ouput
+  copy:
     src: "{{finalscriptpath}}"
     dest: "{{destfinalscriptpath}}"
     mode: 0644
 
-- name: to modify the directory permission for joining the slaves
-  shell: sudo chmod 777 ~/getOutput.sh
-
-- name: execute the join command
+- name: to modify the directory permission for making the shell file executable
   become: yes
-  shell: sh ./getOutput.sh
+  shell: chmod 777 "{{destfinalscriptpath}}"
+
+- name: to pause
+  become: yes
+  pause: minutes=3
+
+- name: execute the final shell file which creates the output command
+  become: yes
+  shell: sh /home/files/getOutput.sh
+
+- name: to modify the directory permission for making the output command file executable
+  become: yes
+  shell: chmod 777 /home/files/fetchOutput.sh
+
+- name: to pause
+  become: yes
+  pause: minutes=3
+
+- name: execute the final command which is the curl to the slave node which had executed the application
+  become: yes
+  shell: sh /home/files/fetchOutput.sh
 
