@@ -15,7 +15,7 @@
 
 - name: run the application using kubectl command
   become: yes
-  shell: kubectl run spamdetectionapplication2 --image=rahpsing/kubernetesi524:spamdetectionapplication
+  shell: kubectl run spamdetectionapplication2 --image=rahpsing/kubernetesi524:spamdetectionapplication --restart=Never
 
 - name: to wait for 1 minutes
   become: yes
