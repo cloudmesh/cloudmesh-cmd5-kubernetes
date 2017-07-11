@@ -15,4 +15,6 @@ sourcescriptpath: ~/cloudmesh.kubernetes/scripts/generateIP.sh
 destscriptpath: /home/files/generateIP.sh
 finalscriptpath: ~/cloudmesh.kubernetes/scripts/getOutput.sh
 destfinalscriptpath: /home/files/getOutput.sh
+applicationoutputpath: /home/files/output.txt
+
 

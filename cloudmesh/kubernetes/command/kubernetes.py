@@ -33,7 +33,8 @@ class KubernetesCommand(PluginCommand):
 		f.close()
 		w.close()
 		os.system('rm -f hosts.txt')
-		os.system('mv inventory.txt ~/cloudmesh.kubernetes/ansiblescript/inventory.txt')
+		os.system('cp inventory.txt ~/cloudmesh.kubernetes/ansiblescript/inventory.txt')
+		os.system('cp inventory.txt ~/cloudmesh.kubernetes/inventory.txt')
 	
 	@command
 	def do_kubernetes(self, args, arguments):
@@ -49,6 +50,7 @@ class KubernetesCommand(PluginCommand):
 			kubernetes cluster info
 			kubernetes cluster deploy
 			kubernetes cluster delete
+			kubernetes cluster benchmark
 
 		Arguments:
 		NAME	name of the cluster
@@ -98,7 +100,11 @@ class KubernetesCommand(PluginCommand):
 
 				print("Creating cluster {}...".format(default["kubernetes","name"]))
 				# Define a cluster
-				command = "cm cluster define --name {} --count {} --image {} --secgroup=mesos-secgroup --flavor {} -C {}".format(default["kubernetes","name"], default["kubernetes","size"], default["kubernetes","image"], default["kubernetes","flavor"], default["kubernetes","cloud"])
+				command = "cm cluster define --name {} --count {} --image {} --flavor {} -C {}".format(default["kubernetes","name"], default["kubernetes","size"], default["kubernetes","image"], default["kubernetes","flavor"], default["kubernetes","cloud"])
+				os.system(command)
+
+				# Use defined cluster
+				command = "cm default cloud={}".format(default["kubernetes","cloud"])
 				os.system(command)
 
 				# Use defined cluster
@@ -112,17 +118,52 @@ class KubernetesCommand(PluginCommand):
 				# Make hosts file
 				self.make_hosts()
 
-				# Run ansible script
-				command = '~/cloudmesh.kubernetes/scripts/deploy-kubernetes.sh'
+				# Run ansible script for setting up the kubernetes cluster
+				#command = '~/cloudmesh.kubernetes/scripts/deploy-kubernetes.sh'
+				#os.system(command)
+
+				# Run ansible script for setting up 
+				print("Running the setup needed for Kubernetes")
+				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/kubernetes.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
 				os.system(command)
 
+				# Run ansible script for installing kubernetes on master node
+				print("Installing Kubernetes on master node")
+				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/master.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
+				os.system(command)
+
+				# Run ansible script for joining slaves to master node to make a kubernetes cluster
+				print("Installing Kubernetes on master node")
+				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/slaves.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
+				os.system(command)
+
+
 				stopwatch.stop('Kubernetes')
-				print('Time Taken:' + str(stopwatch.get('Kubernetes')))
+				print('Time Taken for deploying Kubernetes cluster:' + str(stopwatch.get('Kubernetes')))
 
 				print("Ansible tasks have been successfully completed.")
 				print("Cluster {} created and Kubernetes is running on cluster.".format(default["kubernetes","name"]))
 				default["kubernetes","deploy"] = True
 			else:
-				print("Please set all the required variables.") 
+				print("Please set all the required variables.")
+
+		elif arguments.cluster and arguments.benchmark:
+			if default["kubernetes","name"] is not None and default["kubernetes","size"] is not None and default["kubernetes","image"] is not None and default["kubernetes","flavor"] is not None and default["kubernetes","cloud"] is not None and default["kubernetes","deploy"]:
+				
+				stopwatch = StopWatch()
+				stopwatch.start('Kubernetes benchmark')				
+
+				# Run ansible script for setting up 
+				print("Running the setup needed for Kubernetes")
+				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/runningapplicationonkubernetes.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
+				os.system(command)
+
+				stopwatch.stop('Kubernetes benchmark')
+				print('Time Taken for running the Spam Detection application:' + str(stopwatch.get('Kubernetes benchmark')))
+
+				print("Cluster {} created and Kubernetes is running on cluster.".format(default["kubernetes","name"]))
+				default["kubernetes","deploy"] = False
+			else:
+				print("Please set all the required variables and deploy a kubernetes cluster before running benchmarks on it.") 
 		default.close()
 		return ""

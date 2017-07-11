@@ -7,7 +7,7 @@
 
 - name: installing daemonset for dns
   become: yes
-  shell: kubectl apply -f https://git.io/weave-kube
+  shell: kubectl apply -f https://github.com/weaveworks/weave-kube/releases/download/latest_release/weave-daemonset.yaml
 
 - name: to wait for 1 minutes
   become: yes
@@ -76,4 +76,9 @@
 - name: execute the final command which is the curl to the slave node which had executed the application
   become: yes
   shell: sh /home/files/fetchOutput.sh
+
+- name: Fetch Spam Detection output file from the remote and save to local
+  become: yes
+  synchronize: src="{{applicationoutputpath}}" dest=output/ mode=pull rsync_path="sudo rsync"
+
 
