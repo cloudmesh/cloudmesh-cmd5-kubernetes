@@ -75,17 +75,10 @@ svmLinearAnalysis <- function(vtrdata,vtedata) {
   cat(sprintf("Ham Error using Linear SVM is (in percent): %f",((tablinear[1,2]/sum(tablinear[,2]))*100)))
 
   cat(sprintf("Spam Error using Linear SVM is (in percent): %f",((tablinear[2,1]/sum(tablinear[,1]))*100)))
-  
-  accuracy = 0
-  for (i in 1 : nrow(tablinear)) {
-    for (j in 1 : ncol(tablinear)) {
-      if (i == j) {
-        accuracy = accuracy + tablinear[i, i]
-      }
-    }
-  }
-  accuracy = (accuracy / sum(tablinear)) * 100
-  cat("Test vectors:", dim(vtedata), ", Accuracy =", accuracy, "%\n")
+ 
+  svmLinearAccuracy <- calculateAccuracy(tablinear)
+   
+  cat("Test vectors:", dim(vtedata), ", Accuracy =", svmLinearAccuracy, "%\n")
 }
 
 convert_count <- function(x) {
@@ -97,34 +90,40 @@ convert_count <- function(x) {
 svmPolynomialAnalysis <- function(vtrdata,vtedata) {
   
   svmpolymodel <- svm(x=vtrdata[,2:length(vtrdata[1,])],y=vtrdata[,1], kernel='polynomial', probability=FALSE)
-  print("summary:")
   summary(svmpolymodel)
-
-  print("prediction poly data:")
- # print(predictionpoly)
+  
   predictionpoly <- predict(svmpolymodel, vtedata[,2:length(vtedata[1,])])
-  for(i in 1:length(predictionpoly)) {
+ 
+   for(i in 1:length(predictionpoly)) {
     
     if(predictionpoly[i] > 0.6)
       predictionpoly[i] = 1
     else
       predictionpoly[i] = 0
-  }
+   }
+  
   print("tabpoly data:")
   tabpoly <- table(pred = predictionpoly , true = vtedata[,1]);tabpoly
   print(tabpoly)
   
+  svmPolynomialAccuracy <- calculateAccuracy(tabpoly)
+  cat("Test vectors:", dim(vtedata), ", Accuracy =", svmPolynomialAccuracy, "%\n")
+  
+}
+
+calculateAccuracy <- function(confusionMatrix) {
+  
   accuracy = 0
-  for (i in 1 : nrow(tabpoly)) {
-    for (j in 1 : ncol(tabpoly)) {
+  for (i in 1 : nrow(confusionMatrix)) {
+    for (j in 1 : ncol(confusionMatrix)) {
       if (i == j) {
-        accuracy = accuracy + tabpoly[i, i]
+        accuracy = accuracy + confusionMatrix[i, i]
       }
     }
   }
-  accuracy = (accuracy / sum(tabpoly)) * 100
-  cat("Test vectors:", dim(vtedata), ", Accuracy =", accuracy, "%\n")
+  accuracy = (accuracy / sum(confusionMatrix)) * 100
   
+  return(accuracy)
 }
 
 svmRadialAnalysis <- function(vtrdata,vtedata) {
@@ -143,16 +142,9 @@ svmRadialAnalysis <- function(vtrdata,vtedata) {
   
   tabrad <- table(pred = predictionrad, true = vtedata[,1]); tabrad
   
-  accuracy = 0
-  for (i in 1 : nrow(tabrad)) {
-    for (j in 1 : ncol(tabrad)) {
-      if (i == j) {
-        accuracy = accuracy + tabrad[i, i]
-      }
-    }
-  }
-  accuracy = (accuracy / sum(tabrad)) * 100
-  cat("Test vectors:", dim(vtedata), ", Accuracy =", accuracy, "%\n")
+  svmRadialAccuracy <- calculateAccuracy(tabrad)
+
+  cat("Test vectors:", dim(vtedata), ", Accuracy =", svmRadialAccuracy, "%\n")
 }
 
 kNearestNeighbourAnalysis <- function(vtrdata,vtedata) {
@@ -176,16 +168,9 @@ sms_test_pred <- predict(sms_classifier, newdata=sms_test)
 
 tab_bayes <- table(sms_test_pred, vtedata[,1])
 
-accuracy = 0
-for (i in 1 : nrow(tab_bayes)) {
-  for (j in 1 : ncol(tab_bayes)) {
-    if (i == j) {
-      accuracy = accuracy + tab_bayes[i, i]
-    }
-  }
-}
-accuracy = (accuracy / sum(tab_bayes)) * 100
-cat("Test vectors:", dim(vtedata), ", Accuracy =", accuracy, "%\n")
+naiveBayesAccuracy <- calculateAccuracy(tab_bayes)
+
+cat("Test vectors:", dim(vtedata), ", Accuracy =", naiveBayesAccuracy, "%\n")
 }
 
 adaBoostAnalysis <-  function(vtrdata,vtedata) {
@@ -339,9 +324,7 @@ cb = c("benchmark_comparisions.png","benchmark_comparisions1.png","benchmark_com
   adaBoostAnalysis(vtrdata,vtedata);
   
   #print("----------------------------------NaiveBayes-----------------------------------")
-  naiveBayesAnalysis(vtrdata,vtedata);
+  naiveBayesAnalysis(vtrdata,vtedata)
   
-  #print("----------------------------------KNN-----------------------------------------")
-  kNearestNeighbourAnalysis(vtrdata,vtedata)
   
 
