@@ -6,10 +6,6 @@ if(!require("tm"))
 if(!require("e1071"))
   install.packages("e1071",repos = "http://cran.us.r-project.org")
 
-#required package for KNN
-if(!require("RWeka"))
-  install.packages("RWeka", dependencies = TRUE,repos = "http://cran.us.r-project.org")
-
 #required package for Adaboost
 if(!require("ada"))
   install.packages("ada",repos = "http://cran.us.r-project.org")
@@ -28,7 +24,6 @@ if(!require("class"))
 
 library(tm)
 library(e1071)
-library(RWeka)
 library(ada)
 library(rbenchmark)
 
