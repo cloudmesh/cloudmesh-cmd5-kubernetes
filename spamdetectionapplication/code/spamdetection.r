@@ -34,8 +34,6 @@ library(class)
 #Initialize random generator
 set.seed(1245)
 
-#sink("output.txt")
-
 ############### Method definitions for the learning process ####################
 
 #This function makes vector (Vector Space Model) from text message using highly repeated words
@@ -307,19 +305,36 @@ cb = c("benchmark_comparisions.png","benchmark_comparisions1.png","benchmark_com
   # Run different classification algorithms
   # differnet SVMs with different Kernels
   print("----------------------------------SVM-----------------------------------------")
+  svmLinearStart = Sys.time()
   svmLinearAnalysis(vtrdata,vtedata);
+  svmLinearEnd = Sys.time()
+  cat(sprintf("Time taken by SvmLinearKernel : %f ",(svmLinearEnd - svmLinearStart)))
+  
   
   print("Polynomial Kernel")
+  svmPolynomialStart = Sys.time()
   svmPolynomialAnalysis(vtrdata,vtedata);
+  svmPolynomialEnd = Sys.time()
+  cat(sprintf("Time taken by SvmPolynomialKernel : %f ",(svmPolynomialEnd - svmPolynomialStart)))
   
   print("Radial Kernel")
+  svmRadialStart = Sys.time()
   svmRadialAnalysis(vtrdata,vtedata);
+  svmRadialEnd = Sys.time()
+  cat(sprintf("Time taken by SvmRadialKernel : %f ",(svmRadialEnd - svmRadialStart)))
+  
   
   #print("----------------------------------AdaBoost-----------------------------------")
+  adaBoostStart = Sys.time()
   adaBoostAnalysis(vtrdata,vtedata);
+  adaBoostEnd = Sys.time()
+  cat(sprintf("Time taken by AdaBoost : %f ",(adaBoostEnd - adaBoostStart)))
   
   #print("----------------------------------NaiveBayes-----------------------------------")
+  naiveBayesStart = Sys.time()
   naiveBayesAnalysis(vtrdata,vtedata)
+  naiveBayesEnd = Sys.time()
+  cat(sprintf("Time taken by NaiveBayes : %f ",(naiveBayesEnd - naiveBayesStart)))
   
   
 
