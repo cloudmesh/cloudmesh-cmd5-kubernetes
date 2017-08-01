@@ -1,3 +1,5 @@
+programStart = Sys.time()
+
 #required package for text mining
 if(!require("tm"))
   install.packages("tm",repos = "http://cran.us.r-project.org")
@@ -336,5 +338,5 @@ cb = c("benchmark_comparisions.png","benchmark_comparisions1.png","benchmark_com
   naiveBayesEnd = Sys.time()
   cat(sprintf("Time taken by NaiveBayes : %f ",(naiveBayesEnd - naiveBayesStart)))
   
-  
-
+  programEnd = Sys.time()
+  cat(sprintf("Time taken by the entire application : %f ",(programEnd - programStart)))
