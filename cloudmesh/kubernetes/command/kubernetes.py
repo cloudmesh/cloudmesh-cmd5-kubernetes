@@ -96,11 +96,11 @@ class KubernetesCommand(PluginCommand):
 			if default["kubernetes","name"] is not None and default["kubernetes","size"] is not None and default["kubernetes","image"] is not None and default["kubernetes","flavor"] is not None and default["kubernetes","cloud"] is not None:
 				
 				stopwatch = StopWatch()
-				stopwatch.start('Kubernetes')				
+				stopwatch.start('cluster creation for kubernetes')				
 
 				print("Creating cluster {}...".format(default["kubernetes","name"]))
 				# Define a cluster
-				command = "cm cluster define --name {} --count {} --image {} --flavor {} -C {}".format(default["kubernetes","name"], default["kubernetes","size"], default["kubernetes","image"], default["kubernetes","flavor"], default["kubernetes","cloud"])
+				command = "cm cluster define --secgroup mesos-secgroup --name {} --count {} --image {} --flavor {} -C {}".format(default["kubernetes","name"], default["kubernetes","size"], default["kubernetes","image"], default["kubernetes","flavor"], default["kubernetes","cloud"])
 				os.system(command)
 
 				# Use defined cluster
@@ -118,14 +118,33 @@ class KubernetesCommand(PluginCommand):
 				# Make hosts file
 				self.make_hosts()
 
-				# Run ansible script for setting up the kubernetes cluster
-				#command = '~/cloudmesh.kubernetes/scripts/deploy-kubernetes.sh'
-				#os.system(command)
+				stopwatch.stop('cluster creation for kubernetes')
+				print('Time Taken for creating clusters required for kubernetes:' + str(stopwatch.get('cluster creation for kubernetes')) + 'seconds')
 
-				# Run ansible script for setting up 
+				stopwatch = StopWatch()
+				stopwatch.start('prereq for kubernetes')
+
+				# Run ansible script for setting up the various installables
+				print("Running the setup needed for Kubernetes")
+				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/installations.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
+				os.system(command)
+
+				stopwatch.stop('prereq for kubernetes')
+				print('Time Taken for installing various pre requites for kubernetes:' + str(stopwatch.get('prereq for kubernetes')) + 'seconds')
+
+				stopwatch = StopWatch()
+				stopwatch.start('Kubernetes installables')				
+				
+				# Run ansible script for setting up kubernetes cluster
 				print("Running the setup needed for Kubernetes")
 				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/kubernetes.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
 				os.system(command)
+
+				stopwatch.stop('Kubernetes installables')
+				print('Time Taken for installing kubernetes related packages:' + str(stopwatch.get('Kubernetes installables')) + 'seconds')
+
+				stopwatch = StopWatch()
+				stopwatch.start('Kubernetes cluster creation')
 
 				# Run ansible script for installing kubernetes on master node
 				print("Installing Kubernetes on master node")
@@ -133,13 +152,13 @@ class KubernetesCommand(PluginCommand):
 				os.system(command)
 
 				# Run ansible script for joining slaves to master node to make a kubernetes cluster
-				print("Installing Kubernetes on master node")
+				print("Joining the slaves")
 				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/slaves.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
 				os.system(command)
 
 
-				stopwatch.stop('Kubernetes')
-				print('Time Taken for deploying Kubernetes cluster:' + str(stopwatch.get('Kubernetes')))
+				stopwatch.stop('Kubernetes cluster creation')
+				print('Time Taken for deploying Kubernetes cluster:' + str(stopwatch.get('Kubernetes cluster creation')))
 
 				print("Ansible tasks have been successfully completed.")
 				print("Cluster {} created and Kubernetes is running on cluster.".format(default["kubernetes","name"]))
