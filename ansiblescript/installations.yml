@@ -1,0 +1,7 @@
+---
+- hosts: kubernetes-master kubernetes-slave
+  become: True
+  roles:
+    - { role: cleanup, cloud: '{{cloud}}'}
+    - { role: git, cloud: '{{cloud}}'}
+    - { role: upgrade, cloud: '{{cloud}}'}

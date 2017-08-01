@@ -9,17 +9,13 @@
   become: yes
   shell: kubectl apply -f https://github.com/weaveworks/weave-kube/releases/download/latest_release/weave-daemonset.yaml
 
-- name: to wait for 1 minutes
-  become: yes
-  pause: minutes=3
-
 - name: run the application using kubectl command
   become: yes
   shell: kubectl run spamdetectionapplication2 --image=rahpsing/kubernetesi524:spamdetectionapplication --restart=Never
 
-- name: to wait for 1 minutes
+- name: to wait for 5 minutes
   become: yes
-  pause: minutes=3
+  pause: minutes=5
 
 - name: to change the directory for creating the required file for the hostname
   shell: chdir="{{filespath}}" kubectl get pods -o=name| grep spamdetectionapplication2 | cut -d '/' -f 2- | kubectl describe pod | grep Node:| cut -d '/' -f 1 | cut -d ':' -f 2 | tr -d " \t\n\r" >> hostName.txt
@@ -57,10 +53,6 @@
   become: yes
   shell: chmod 777 "{{destfinalscriptpath}}"
 
-- name: to pause
-  become: yes
-  pause: minutes=3
-
 - name: execute the final shell file which creates the output command
   become: yes
   shell: sh /home/files/getOutput.sh
@@ -68,10 +60,6 @@
 - name: to modify the directory permission for making the output command file executable
   become: yes
   shell: chmod 777 /home/files/fetchOutput.sh
-
-- name: to pause
-  become: yes
-  pause: minutes=3
 
 - name: execute the final command which is the curl to the slave node which had executed the application
   become: yes
