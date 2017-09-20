@@ -461,4 +461,4 @@ Using the above 2 information, we have benchmarked our analysis in the report fi
 
 Report of the Kubernetes Project
 ================================
-The entire benchmark analysis and the detailed workings of this project can be found in [here](https://github.com/cloudmesh/sp17-i524/blob/master/project/S17-IR-P007/report/report.pdf)
+The entire benchmark analysis and the detailed workings of this project can be found For checking the front end application for the catalog, click [here](https://github.com/p632-sp-2017/microservice-catalog-frontend) in [here](https://github.com/cloudmesh/sp17-i524/blob/master/project/S17-IR-P007/report/report.pdf)
