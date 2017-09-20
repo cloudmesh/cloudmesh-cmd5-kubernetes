@@ -22,8 +22,7 @@ virtualenv:
 Activate the virtual environment:
 
 ```
-brew update
-brew install yarn
+source ~/ENV/bin/activate
 ```
   
 Now you need to get two source directories. We assume yo place them in ~/ i.e Your home directory:
@@ -35,19 +34,20 @@ git clone https://github.com/cloudmesh/cloudmesh.common.git
 
 git clone https://github.com/cloudmesh/cloudmesh.cmd5.git 
 
-git clone https://github.com/cloudmesh/cloudmesh.docker.git
+git clone https://github.com/cloudmesh/cloudmesh.kubernetes.git
+
 ```
 The cmd5 repository contains the shell, while the cloudmesh.Kubernetes directory contains the Kubernetes commands.
 
 ```
 To install them simply to the following:
 
-cd ~/cloudmesh.common
+cd ~/cloudmesh.common 
 python setup.py install; pip install -e .
 
-cd ~/cloudmesh.cmd5
+cd ~/cloudmesh.cmd5 
 python setup.py install; pip install -e .
 
-cd ~/github/cloudmesh.kubernetes
+cd ~/github/cloudmesh.kubernetes 
 python setup.py install; pip install -e
 ```
