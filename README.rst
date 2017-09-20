@@ -168,11 +168,13 @@ Sample Execution Steps
 The first step is always to configure the settings required for the Kubernetes cluster.
 Here you set the name for the cluster, the size of the cluster, the cloud on which you want to create the Kubernetes cluster and give the cluster an image type.
 
+Kubernetes name command
+-----------------------
 ::
 
-	cms docker host docker1 docker1:4243
-	Host docker1 is Added and is the default swarm host
-
+	cms> kubernetes name xxkubernetes
+	Set name to xxkubernetes
+The above command sets the name of the Kubernetes cluster to xxkubernetes
 ::
 
 	cms docker host docker2 docker2:4243
