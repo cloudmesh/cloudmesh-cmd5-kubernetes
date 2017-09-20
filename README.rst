@@ -458,4 +458,7 @@ The contents of the output file are as follows
 	Time taken by NaiveBayes : 6.611221 Time taken by the entire application : 48.921906
 
 The above file outputs the time taken by AdaBoost and Naive Bayes to detect spam deteciton application. Moreover the bechmark command also outputs the time taken for executing in on the kubernetes cluster on the specified cloud.
+Using the above 2 information, we have benchmarked our analysis in the report file for this project.
 
+Report of the application
+=========================
