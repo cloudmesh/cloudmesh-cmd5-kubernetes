@@ -8,3 +8,32 @@ be deploying a kubernetes cluster using kubeadm - the kubernetes command line to
 =============
 - Python 2.7.13  
 - Ubuntu 16.04
+
+Installation from source
+========================
+Setup a virtual environment with virtualenv.
+
+virtualenv:
+
+  virtualenv ~/ENV2
+  
+
+Now you need to get two source directories. We assume yo place them in ~/github:
+
+mkdir ~/github
+cd ~/github
+git clone https://github.com/cloudmesh/cloudmesh.common.git
+git clone https://github.com/cloudmesh/cloudmesh.cmd5.git
+git clone https://github.com/cloudmesh/cloudmesh.docker.git
+The cmd5 repository contains the shell, while the cloudmesh.docker directory contains the commands docker and swarm.
+
+To install them simply to the following:
+
+cd ~/github/cloudmesh.common
+python setup.py install; pip install -e .
+cd ~/github/cloudmesh.cmd5
+python setup.py install; pip install -e .
+cd ~/github/cloudmesh.rest
+python setup.py install; pip install -e
+cd ~/github/cloudmesh.docker
+python setup.py install; pip install -e
