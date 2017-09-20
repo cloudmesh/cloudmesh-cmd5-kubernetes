@@ -25,10 +25,10 @@ virtualenv::
 
     virtualenv ~/ENV2
 
-Activate the Virtual environment
-pyenv::
+Activate the Virtual environment::
 
-    pyenev virtualenv 2.7.13 ENV2
+
+     source ~/ENV/bin/activate
 
 Now you need to get two source directories. We assume yo place them in
 ~/github::
