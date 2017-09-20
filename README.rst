@@ -22,7 +22,8 @@ virtualenv:
 Activate the virtual environment:
 
 ```
-  source ~/ENV/bin/activate
+brew update
+brew install yarn
 ```
   
 Now you need to get two source directories. We assume yo place them in ~/ i.e Your home directory:
