@@ -157,7 +157,7 @@ class KubernetesCommand(PluginCommand):
 
 
 				stopwatch.stop('Kubernetes cluster creation')
-				print('Time Taken for deploying Kubernetes cluster:' + str(stopwatch.get('Kubernetes cluster creation')))
+				print('Time Taken for deploying Kubernetes cluster:' + str(stopwatch.get('Kubernetes cluster creation')) + ' seconds')
 
 				print("Ansible tasks have been successfully completed.")
 				print("Cluster {} created and Kubernetes is running on cluster.".format(default["kubernetes","name"]))
@@ -177,7 +177,7 @@ class KubernetesCommand(PluginCommand):
 				os.system(command)
 
 				stopwatch.stop('Kubernetes benchmark')
-				print('Time Taken for running the Spam Detection application:' + str(stopwatch.get('Kubernetes benchmark')))
+				print('Time Taken for running the Spam Detection application:' + str(stopwatch.get('Kubernetes benchmark')) + ' seconds')
 
 				print("Cluster {} created and Kubernetes is running on cluster.".format(default["kubernetes","name"]))
 				default["kubernetes","deploy"] = False
