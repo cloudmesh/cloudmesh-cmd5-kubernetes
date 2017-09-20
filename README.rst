@@ -26,11 +26,16 @@ source ~/ENV/bin/activate
 ```
   
 Now you need to get two source directories. We assume yo place them in ~/ i.e Your home directory:
+```
+cd ~
+git clone https://github.com/cloudmesh/cloudmesh.common.git
+
+```
 
 ```
 cd ~
 
-git clone https://github.com/cloudmesh/cloudmesh.common.git
+
 
 git clone https://github.com/cloudmesh/cloudmesh.cmd5.git 
 
