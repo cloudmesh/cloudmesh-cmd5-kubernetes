@@ -61,3 +61,44 @@ To install them simply to the following:
 - pip install -e
 
 ```
+Running the above commands will successfully install the CMD5 Kubernetes commands which will help in setting up the Kubernetes cluster and perform the benchmark analysis.
+
+Execution
+=========
+
+Before executing the Kubernetes application, you must have cloudmesh client installed on the machine and the cloudmesh.yaml file must have valid username and password for connecting the different cloud systems like Kilo, Chameleon etc and the corresponding clouds must be active as well.
+
+Open up the Terminal in the virtual box and enter the following commands:
+
+To run the shell you can activate it with the cms command. cms stands for cloudmesh shell:
+
+$ cms
+It will print the banner and enter the shell:
+
++-------------------------------------------------------+
+|   ____ _                 _                     _      |
+|  / ___| | ___  _   _  __| |_ __ ___   ___  ___| |__   |
+| | |   | |/ _ \| | | |/ _` | '_ ` _ \ / _ \/ __| '_ \  |
+| | |___| | (_) | |_| | (_| | | | | | |  __/\__ \ | | | |
+|  \____|_|\___/ \__,_|\__,_|_| |_| |_|\___||___/_| |_| |
++-------------------------------------------------------+
+|                  Cloudmesh CMD5 Shell                 |
++-------------------------------------------------------+
+
+cms>
+
+To see the list of commands you can say:
+
+cms> help
+To see the manuaul page for a specific command, please use:
+
+help COMMANDNAME
+
+Commands for Kubernetes
+=======================
+
+The following commands are added as part of the project and available for use via the cloudmesh shell:
+
+docker
+swarm
+The refresh commands refresh the current status from remote hosts and the list commands pull the data from local.(This is yet to be fully integrated)
