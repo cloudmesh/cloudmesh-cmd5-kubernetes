@@ -388,7 +388,6 @@ Once the Kubernetes cluster has been deployed, the benchmark command can be exec
 	node1                      : ok=18   changed=16   unreachable=0    failed=0   
 
 	Time Taken for running the Spam Detection application:342.945085049 seconds
-	Cluster xxxx created and Kubernetes is running on cluster.
 	
 The above command runs the spam detection application on the kubernetes cluster and outputs the file which has the timings taken by various algorithms for spam detection. Its then fetches the output from the virtual cluster to the local machine and saves it at ~/cloudmesh.kubernetes/ansiblescript/output directory
 
@@ -460,5 +459,6 @@ The contents of the output file are as follows
 The above file outputs the time taken by AdaBoost and Naive Bayes to detect spam deteciton application. Moreover the bechmark command also outputs the time taken for executing in on the kubernetes cluster on the specified cloud.
 Using the above 2 information, we have benchmarked our analysis in the report file for this project.
 
-Report of the application
-=========================
+Report of the Kubernetes Project
+================================
+The entire benchmark analysis and the detailed workings of this project can be found in [here](https://github.com/cloudmesh/sp17-i524/blob/master/project/S17-IR-P007/report/report.pdf)
