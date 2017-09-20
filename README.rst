@@ -166,7 +166,7 @@ Sample Execution Steps
 ----------------------
 
 The first step is always to configure the settings required for the Kubernetes cluster.
-Here you set the name for the cluster, the size of the cluster, the cloud on which you want to create the Kubernetes cluster and give the cluster an image type.
+Here you set the name for the cluster, the size of the cluster, the cloud on which you want to create the Kubernetes cluster and give the cluster an image type. Below are the necessary steps which you need to execute in order to make the Kubernetes cluster work.
 
 Kubernetes name command
 -----------------------
@@ -175,48 +175,51 @@ Kubernetes name command
 	cms> kubernetes name xxkubernetes
 	Set name to xxkubernetes
 The above command sets the name of the Kubernetes cluster to xxkubernetes
+
+Kubernetes size command
+-----------------------
 ::
 
-	cms docker host docker2 docker2:4243
-	Host docker2 is Added and is the default swarm host
+	cms> kubernetes size 2
+	Set size to 2
+The above command sets the size of the Kubernetes cluster to 2. So when the cluster will be created, 2 instances will be created in the cluster.
 
+Kubernetes flavor command
+-----------------------
 ::
 
-	cms docker host list
+	cms> kubernetes flavor m1.medium
+	Set flavor to m1.medium
+The above command sets the flavor of the Kubernetes cluster to m1.medium. There are 3 options for the flavor: m1. small, m1.medium and m1.large. Depending upon the requirements, you may choose the flavor for each instance.
 
-	+---------+---------+------+-----------+
-	| Ip      | Name    | Port | Swarmmode |
-	+---------+---------+------+-----------+
-	| docker1 | docker1 | 4243 |           |
-	| docker2 | docker2 | 4243 |           |
-	| docker4 | docker4 | 4243 |           |
-	| docker3 | docker3 | 4243 |           |
-	+---------+---------+------+-----------+
-
+Kubernetes image command
+-----------------------
 ::
 
-	cms docker image refresh
+	cms> kubernetes image CC-Ubuntu16.04-20160610
+	Set image to CC-Ubuntu16.04-20160610
+The above command sets the image of the Kubernetes cluster to CC-Ubuntu16.04-20160610. The image has to be a list of all valid images on the corresponding cloud. If you select an incorrect image then it will throw error when the instaces are created.
 
-	+---------+------------------------------------------+------------------------------------------+----------+
-	| Ip      | Id                                       | Repository                               | Size(GB) |
-	+---------+------------------------------------------+------------------------------------------+----------+
-	| docker1 | sha256:909af725a4032bf00f36b45b358c46d6a | elasticsearch:swarm                      | 0.2      |
-	|         | 67f8b3201747c8992c920bc34d3148c          |                                          |          |
-	| docker1 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	| docker2 | sha256:f70df3612f57225cb85bc20442c42c744 | elasticsearch:swarm                      | 0.2      |
-	|         | bf303e3cdcde08c0092c16a8d655748          |                                          |          |
-	| docker2 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	| docker4 | sha256:c66e748329975c1ca97ecc23b2b5fcc02 | elasticsearch:swarm                      | 0.2      |
-	|         | f6781885053321add902e9267c42880          |                                          |          |
-	| docker4 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	| docker3 | sha256:ec53e8e805a81d93f3c8d812f3b179f08 | elasticsearch:swarm                      | 0.2      |
-	|         | 9695fcfb7d8361ada89588c4da69c82          |                                          |          |
-	| docker3 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	+---------+------------------------------------------+------------------------------------------+----------+
+Kubernetes cloud command
+-----------------------
+::
+
+	cms> kubernetes cloud chameleon
+	Set cloud to chameleon
+The above command sets the cloud of the Kubernetes cluster to chameleon. So the cluster will be created on chameleon cloud.
+
+Kubernetes cluster info command
+-----------------------
+::
+
+	cms> kubernetes cluster info
+	Cluster details:
+		Cloud  :chameleon
+		Name   : xxx
+		Size   : 2
+		Image  : CC-Ubuntu16.04-20160610
+		Flavor : m1.medium
+The above command lists the info of the mandatory commands needed for the Kubernetes creation. Its gives the cloud name, name of the cluster, Size of the cluster, Image for the cluster and its flavor.
 
 ::
 
