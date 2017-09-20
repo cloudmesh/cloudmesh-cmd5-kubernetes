@@ -149,8 +149,8 @@ kubernetes command
           Arguments:
             NAME     name of the cluster 
             SIZE     size of the cluster
-            IMAGE    image of the cluster
-            FLAVOR   flavor of the vm
+            IMAGE    image of the instaces in the cluster
+            FLAVOR   flavor of the instances in the cluster
             CLOUD    cloud on which the cluster will be created
             
 
@@ -219,7 +219,80 @@ Kubernetes cluster info command
 		Size   : 2
 		Image  : CC-Ubuntu16.04-20160610
 		Flavor : m1.medium
-The above command lists the info of the mandatory commands needed for the Kubernetes creation. Its gives the cloud name, name of the cluster, Size of the cluster, Image for the cluster and its flavor.
+		
+	If any of the above details are None/False, please set them using the appropriate command before deploying the cluster
+	
+The above command lists the info of the mandatory commands needed for the Kubernetes creation. Its gives the cloud name, name of the cluster, Size of the cluster, Image for the cluster and its flavor. Setting each of these commands is necessary before deploying the cluster.
+
+Kubernetes cluster deploy command
+-----------------------
+Once you have setted all the necessary details or parameters for the Kubernetes cluster, you may deploy the Kubernetes cluster using the Kubernetes deploy command. If any of the cluster details are missing, this won't execute and will ask you to set those details before executing this command.
+::
+
+	Creating cluster xxxx...
+	Defined cluster xxxx
+	set default cloud=chameleon. ok.
+	Cluster qwer is now active
+	INFO: Booting VM for cluster qwer
+	Machine savora-290 is being booted on cloud chameleon ...
+	+-----------+--------------------------------+
+	| Attribute | Value                          |
+	+-----------+--------------------------------+
+	| cloud     | chameleon                      |
+	| flavor    | m1.medium                      |
+	| image     | CC-Ubuntu16.04-20160610        |
+	| key       | savora                         |
+	| meta      | +                              |
+	|   -       | category: chameleon            |
+	|   -       | kind: cloudmesh                |
+	|   -       | group: default                 |
+	|   -       | image: CC-Ubuntu16.04-20160610 |
+	|   -       | cluster: xxxx                  |
+	|   -       | key: savora                    |
+	|   -       | flavor: m1.medium              |
+	| name      | savora-290                     |
+	| nics      |                                |
+	| secgroup  | +                              |
+	|   -       | mesos-secgroup                 |
+	+-----------+--------------------------------+
+	
+	.............................................
+	..........................................
+	.........................................
+	
+	Cluster xxx created
+	qwer
+        # 129.114.32.161:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.32.161:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.32.161:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.33.60:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.33.60:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.33.60:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.32.209:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.32.209:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	# 129.114.32.209:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
+	saving the host file at
+	/home/sagar
+	Time Taken for creating clusters required for kubernetes:132.914994001 seconds
+	
+	Running the setup needed for Kubernetes
+
+	PLAY [kubernetes-master kubernetes-slave] **************************************
+
+	TASK [setup] *******************************************************************
+	ok: [node3]
+	ok: [node1]
+	ok: [node2]
+	
+	............................
+	...........................
+	...........................
+	
+	Time Taken for deploying Kubernetes cluster:101.560043097
+	Ansible tasks have been successfully completed.
+	Cluster qwer created and Kubernetes is running on cluster.
+	
+The above command creates a Kubernetes cluster with the specified name in the name command with the size in the size command on the cloud mentioned in the cloud command. Moreover, its takes the flavor name and image through the corresponding commands as well. It creates the cluster using cloudmesh client and 
 
 ::
 
@@ -439,63 +512,7 @@ Use::
   cms docker benchmark N
   cms swarm  benchmark N
 
-N denotes the number of iterations the benchmark is to be done.The results will shown
-on the on the command prompt as well as a detailed csv will be generated to 
-/benchmark directory with the timestamp of each run.
 
-Use case scripts
-----------------
-
-We are providing a set of sample scripts to demonstrate the possible usecases of the
-cloudmesh client.The scripts are available at /scripts directory.The scripts can be 
-run using the below command.
-
-::
-
-	python run_script.py FILENAME [HOSTFILE]
-
-A sample script to setup elastic search cluster on docker
-
-::
-
-	Command Name#Command
-	ansible-docker-image#ansible-playbook --inventory-file=../config/ansible/$hosts ../config/ansible/yaml/docker-image-install.yml
-	Host-Create1#cms docker host docker1 docker1:4243
-	Container-Create1#cms docker container create elasticsearch1 elasticsearch:docker network_mode=host environment=["http.host=0.0.0.0","transport.host=0.0.0.0","discovery.zen.ping.unicast.hosts=docker1,docker2"]
-	Container-Create2#cms docker container create elasticsearch2 elasticsearch:docker network_mode=host environment=["http.host=0.0.0.0","transport.host=0.0.0.0","discovery.zen.ping.unicast.hosts=docker1,docker2"]
-	Container-Start1#cms docker container start elasticsearch1
-	Sleep1#sleep 10
-	Container-Start2#cms docker container start elasticsearch2
-	Sleep2#sleep 10
-	Container-List1#cms docker container list
-	Container-Refresh1#cms docker container refresh
-	Host-Creat2#cms docker host docker2 docker2:4243
-	Container-Create3#cms docker container create elasticsearch3 elasticsearch:docker network_mode=host environment=["http.host=0.0.0.0","transport.host=0.0.0.0","discovery.zen.ping.unicast.hosts=docker1,docker2"]
-	Container-Create4#cms docker container create elasticsearch4 elasticsearch:docker network_mode=host environment=["http.host=0.0.0.0","transport.host=0.0.0.0","discovery.zen.ping.unicast.hosts=docker1,docker2"]
-	Container-Start3#cms docker container start elasticsearch3
-	Sleep3#sleep 10
-	Container-Start4#cms docker container start elasticsearch4
-	Sleep5#sleep 10
-	Container-List2#cms docker container list
-	Container-Refresh2#cms docker container refresh
-
-A sample script to setup elastic search cluster on swarm
-
-::
-
-	Command Name#Command
-	ansible-docker-image#ansible-playbook --inventory-file=../config/ansible/$host ../config/ansible/yaml/docker-image-install.yml
-	Host-Create1#cms swarm host docker3 docker3:4243
-	Host-Create2#cms swarm host docker4 docker4:4243
-	Swarm-Create#cms swarm create
-	Host-Create3#cms swarm host docker3 docker3:4243
-	Swarm-Join#cms swarm join docker4 Worker
-	Host-Create4#cms swarm host docker4 docker4:4243
-	Network-Create1#cms swarm network create elastic_cluster driver="overlay"
-	Sleep1#sleep 10
-	Service-Create1#cms swarm service create elasticsearch elasticsearch:swarm ServiceMode.mode="replicated" ServiceMode.replicas=4 EndpointSpec.ports=["9200:9200"] networks=["elastic_cluster"] env=["SERVICE_NAME=elasticsearch"]
-	Sleep1#sleep 15
-	Container-Refresh1#cms swarm container refresh
 
 
 
