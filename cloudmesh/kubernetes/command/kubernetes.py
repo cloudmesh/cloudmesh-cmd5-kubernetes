@@ -135,7 +135,7 @@ class KubernetesCommand(PluginCommand):
 				stopwatch.start('Kubernetes installables')				
 				
 				# Run ansible script for setting up kubernetes cluster
-				print("Running the setup needed for Kubernetes")
+				print("Running the Kubernetes setup")
 				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/kubernetes.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
 				os.system(command)
 
@@ -172,7 +172,7 @@ class KubernetesCommand(PluginCommand):
 				stopwatch.start('Kubernetes benchmark')				
 
 				# Running the spam detection application
-				print("Running the spam detection application")
+				print("Running the spam detection application on kubernetes cluster")
 				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/runningapplicationonkubernetes.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
 				os.system(command)
 
