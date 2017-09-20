@@ -14,9 +14,10 @@ Installation from source
 Setup a virtual environment with virtualenv.
 
 virtualenv:
-  ```
-  virtualenv ~/ENV2
-  ```
+
+```
+virtualenv ~/ENV2
+```
 
 Activate the virtual environment:
   ```
