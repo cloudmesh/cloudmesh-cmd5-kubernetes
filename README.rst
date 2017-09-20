@@ -343,10 +343,8 @@ Later, its calls the master.yml playbook which installs Kubernetes package on th
 Kubernetes cluster benchmark command
 -----------------------------------
 Once the Kubernetes cluster has been deployed, the benchmark command can be executed to perform the benchmark analysis of the spam detection application. This command executes the docker image for the spam detection application and outputs the file which has the time taken for classifying a peice of text as valid email or spam using different algorithms.
-
 ::
-	cms> kubernetes cluster benchmark
-	
-	Running the spam detection application
+	cms> kubernetes cluster deploy
+	Creating cluster xxxx...
 	
 The above command runs the spam detection application on the kubernetes cluster and outputs the file which has the timings taken by various algorithms for spam detection. Its then fetches the output from the virtual cluster to the local machine and saves it at ~/cloudmesh.kubernetes/ansiblescript/output
