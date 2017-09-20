@@ -20,13 +20,13 @@ virtualenv ~/ENV2
 ```
 
 Activate the virtual environment:
-  ```
-  source ~/ENV/bin/activate
-  ```
+
+```
+source ~/ENV/bin/activate
+```
   
 Now you need to get two source directories. We assume yo place them in ~/ i.e Your home directory:
-
-
+```
 cd ~
 
 git clone https://github.com/cloudmesh/cloudmesh.common.git
@@ -34,9 +34,11 @@ git clone https://github.com/cloudmesh/cloudmesh.common.git
 git clone https://github.com/cloudmesh/cloudmesh.cmd5.git 
 
 git clone https://github.com/cloudmesh/cloudmesh.docker.git 
+```
 
 The cmd5 repository contains the shell, while the cloudmesh.Kubernetes directory contains the Kubernetes commands.
 
+```
 To install them simply to the following:
 
 cd ~/cloudmesh.common
@@ -47,3 +49,4 @@ python setup.py install; pip install -e .
 
 cd ~/github/cloudmesh.kubernetes
 python setup.py install; pip install -e
+```
