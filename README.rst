@@ -44,15 +44,20 @@ To install them simply to the following:
 
 cd ~/cloudmesh.common
 
-python setup.py install 
+python setup.py install
+
 pip install -e .
 
 cd ~/cloudmesh.cmd5
+
 python setup.py install
+
 pip install -e .
 
 cd ~/github/cloudmesh.kubernetes 
+
 python setup.py install
+
 pip install -e
 
 ```
