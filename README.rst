@@ -339,3 +339,14 @@ The above command creates a Kubernetes cluster with the specified name in the na
 After the cluster creation, it triggers various ansible playbooks to configure the Kubernetes cluster. The installations.yml playbook is triggered first which installs git and updates the vms in all the instances. Next up is called the Kubernetes.yml playbook which installs docker for kubernetes, get the kubernetes related packages and installs the dataset required for kubernetes.
 
 Later, its calls the master.yml playbook which installs Kubernetes package on the master (one of the instance) and initializes the kubernetes cluster on it and finally the slaves.yml is called which connects the rest of the instances to this master instance and the creation of Kubernetes cluster is complete.
+
+Kubernetes cluster benchmark command
+-----------------------------------
+Once the Kubernetes cluster has been deployed, the benchmark command can be executed to perform the benchmark analysis of the spam detection application. This command executes the docker image for the spam detection application and outputs the file which has the time taken for classifying a peice of text as valid email or spam using different algorithms.
+
+::
+	cms> kubernetes cluster benchmark
+	
+	Running the spam detection application
+	
+The above command runs the spam detection application on the kubernetes cluster and outputs the file which has the timings taken by various algorithms for spam detection. Its then fetches the output from the virtual cluster to the local machine and saves it at ~/cloudmesh.kubernetes/ansiblescript/output
