@@ -14,6 +14,7 @@ Requirements
 
 * Python 2.7.13
 * Ubuntu 16.04
+* Cloudmesh Client
 
 
 Installation from source
@@ -31,61 +32,31 @@ Activate the Virtual environment::
      source ~/ENV/bin/activate
 
 Now you need to get two source directories. We assume yo place them in
-~/github::
+~/ i.e the home folder::
 
-    mkdir ~/github
+    
     cd ~/github
     git clone https://github.com/cloudmesh/cloudmesh.common.git
     git clone https://github.com/cloudmesh/cloudmesh.cmd5.git
-    git clone https://github.com/cloudmesh/cloudmesh.docker.git
+    git clone https://github.com/cloudmesh/cloudmesh.kubernetes.git
 
-The cmd5 repository contains the shell, while the cloudmesh.docker directory
-contains the commands docker and swarm.
+The cmd5 repository contains the shell, while the cloudmesh.kubernetes directory
+contains the Kubernetes commands.
 
 To install them simply to the following::
 
-    cd ~/github/cloudmesh.common
+    cd ~/cloudmesh.common
     python setup.py install; pip install -e .
-    cd ~/github/cloudmesh.cmd5
+    cd ~/cloudmesh.cmd5
     python setup.py install; pip install -e .
-    cd ~/github/cloudmesh.rest
-    python setup.py install; pip install -e
-    cd ~/github/cloudmesh.docker
+    cd ~/github/cloudmesh.kubernetes
     python setup.py install; pip install -e
 
-Installation from docker
-------------------------
 
-We strongly recommend using the docker install as it takes care of
-all dependencies.To install and start
-use below commands.Please note docker is to be installed
-on your local.
-
-Docker Community Edition is to be used for local install.Please refer
-instrutions on https://www.docker.com/community-edition to install docker.
-
-Create the cloudmesh docker image with the name ‘cloudmesh.docker’::
-
-    make docker-build
-	
-Start a docker container::
-
-    make docker-machine
-	
-Login to the started vm so you can execute docker commands::
-
-    make docker-machine-login
-	
-Please note we have automated mount points for the source code and the data directories.
-So we strongly recommend using the above commands to use the repository .You can also use
-the standard docker commands to start the container however you will manually need to ensure 
-the mouting of the directories and networking requirements for the container.
-	
 Configuration
 ------------------
-
-To configure access to docker on a machine please use the cloudmesh_cmd5.yaml file available
-in teh config directory.This file is to be copied to ~/.cloudmesh directory
+Since cloudmesh client is already installed, to get access to a corresponding cloud cluster, you need to have the accurate username and password for each cloud access along with the project name in the cloudmesh.yaml file as shown below.
+This file is present in ~/.cloudmesh directory
 
 You will have to do the following modifications to match you machine::
 
@@ -96,47 +67,20 @@ You will have to do the following modifications to match you machine::
         user: TBD
 
 
-	system:
-        data: ~/.cloudmesh/cloudmesh_inventory.yaml
-        console_color: true
-    logging:
-        file: ~/.cloudmesh/cloudmesh.log
-        level: DEBUG
-    config:
-        path: ~/app/cloudmesh.docker/config/
-        base: /app/cloudmesh.docker/
+    active:
+        - kilo
+	- chameleon
+    clouds:
+    kilo:    
+	credentials:
+	  OS_USERNAME: xxxx
+          OS_PASSWORD: xxxx
+	  OS_PROJECT_NAME: xxxx 
+    default:
+        flavor: xxxx
+        image: xxxx
 
-Managing Mongo
-^^^^^^^^^^^^^^
 
-Next you need to start the mongo service with::
-
-    cms admin mongo start
-
-You can look at the status and information about the service with ::
-
-    cms admin mongo info
-    cms admin mongo status
-
-If you need to stop the service you can use::
-
-    cms admin mongo stop
-
-Managing Eve
-^^^^^^^^^^^^^
-
-The settings.py file available as part of cloudmesh.docker/config/restjson needs to be copied to 
-~/.cloudmesh/eve directory.The setting.py file has the schema details of the mongo db objects used 
-by the client.
-
-Now it is time to start the REST service. THis is done in a separate window with the following commands::
-
-  cms admin rest start
-
-This file is than used by the start action to start the eve service.
-Please make sure that you execute this command in a separate window, as
-for debugging purposses you will be able to monitor this way interactions
-with this service
 
 Ansible Scripts
 --------------	
