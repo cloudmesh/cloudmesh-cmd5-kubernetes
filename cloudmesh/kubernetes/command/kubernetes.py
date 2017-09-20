@@ -49,7 +49,6 @@ class KubernetesCommand(PluginCommand):
 			kubernetes cloud CLOUD
 			kubernetes cluster info
 			kubernetes cluster deploy
-			kubernetes cluster delete
 			kubernetes cluster benchmark
 
 		Arguments:
@@ -119,7 +118,7 @@ class KubernetesCommand(PluginCommand):
 				self.make_hosts()
 
 				stopwatch.stop('cluster creation for kubernetes')
-				print('Time Taken for creating clusters required for kubernetes:' + str(stopwatch.get('cluster creation for kubernetes')) + 'seconds')
+				print('Time Taken for creating clusters required for kubernetes:' + str(stopwatch.get('cluster creation for kubernetes')) + ' seconds')
 
 				stopwatch = StopWatch()
 				stopwatch.start('prereq for kubernetes')
@@ -130,7 +129,7 @@ class KubernetesCommand(PluginCommand):
 				os.system(command)
 
 				stopwatch.stop('prereq for kubernetes')
-				print('Time Taken for installing various pre requites for kubernetes:' + str(stopwatch.get('prereq for kubernetes')) + 'seconds')
+				print('Time Taken for installing various pre requites for kubernetes:' + str(stopwatch.get('prereq for kubernetes')) + ' seconds')
 
 				stopwatch = StopWatch()
 				stopwatch.start('Kubernetes installables')				
@@ -141,7 +140,7 @@ class KubernetesCommand(PluginCommand):
 				os.system(command)
 
 				stopwatch.stop('Kubernetes installables')
-				print('Time Taken for installing kubernetes related packages:' + str(stopwatch.get('Kubernetes installables')) + 'seconds')
+				print('Time Taken for installing kubernetes related packages:' + str(stopwatch.get('Kubernetes installables')) + ' seconds')
 
 				stopwatch = StopWatch()
 				stopwatch.start('Kubernetes cluster creation')
@@ -172,8 +171,8 @@ class KubernetesCommand(PluginCommand):
 				stopwatch = StopWatch()
 				stopwatch.start('Kubernetes benchmark')				
 
-				# Run ansible script for setting up 
-				print("Running the setup needed for Kubernetes")
+				# Running the spam detection application
+				print("Running the spam detection application")
 				command = 'ansible-playbook ~/cloudmesh.kubernetes/ansiblescript/runningapplicationonkubernetes.yml -i ~/cloudmesh.kubernetes/ansiblescript/inventory.txt -e "cloud={}"'.format(default["kubernetes","cloud"])
 				os.system(command)
 
