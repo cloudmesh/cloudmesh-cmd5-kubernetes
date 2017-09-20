@@ -228,7 +228,7 @@ Kubernetes cluster deploy command
 -----------------------
 Once you have setted all the necessary details or parameters for the Kubernetes cluster, you may deploy the Kubernetes cluster using the Kubernetes deploy command. If any of the cluster details are missing, this won't execute and will ask you to set those details before executing this command.
 ::
-
+	cms> kubernetes cluster deploy
 	Creating cluster xxxx...
 	Defined cluster xxxx
 	set default cloud=chameleon. ok.
@@ -330,7 +330,7 @@ Once you have setted all the necessary details or parameters for the Kubernetes 
 
 	TASK [setup] *******************************************************************
 	ok: [node1]
-	Time Taken for deploying Kubernetes cluster:101.560043097
+	Time Taken for deploying Kubernetes cluster:101.560043097 seconds
 	Ansible tasks have been successfully completed.
 	Cluster xxxx created and Kubernetes is running on cluster.
 	
@@ -338,115 +338,58 @@ The above command creates a Kubernetes cluster with the specified name in the na
 
 After the cluster creation, it triggers various ansible playbooks to configure the Kubernetes cluster. The installations.yml playbook is triggered first which installs git and updates the vms in all the instances. Next up is called the Kubernetes.yml playbook which installs docker for kubernetes, get the kubernetes related packages and installs the dataset required for kubernetes.
 
-Later, its calls the master.yml playbook which installs Kubernetes package on the master (one of the instance) and initializes the kubernetes cluster and finally the slaves.yml is called which connects the rest of the instances to this master and the creation of Kubernetes cluster is complete.
+Later, its calls the master.yml playbook which installs Kubernetes package on the master (one of the instance) and initializes the kubernetes cluster on it and finally the slaves.yml is called which connects the rest of the instances to this master instance and the creation of Kubernetes cluster is complete.
+
+
+Kubernetes cluster benchmark command
+-----------------------------------
+Once the Kubernetes cluster has been deployed, the benchmark command can be executed to perform the benchmark analysis of the spam detection application. This command executes the docker image for the spam detection application and outputs the file which has the time taken for classifying a peice of text as valid email or spam using different algorithms.
 
 ::
+	cms> kubernetes cluster benchmark
+	
+	Running the spam detection application
+
+	PLAY [kubernetes-master] *******************************************************
+
+	TASK [setup] *******************************************************************
+	ok: [node1]
+
+	TASK [initialize_pods : to make a directory for storing the new created files] *
+	changed: [node1]
+
+	TASK [initialize_pods : to modify the directory permission for those files] ****
+	changed: [node1]
+ 	[WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
+
+
+	TASK [initialize_pods : installing daemonset for dns] **************************
+	changed: [node1]
+
+	TASK [initialize_pods : run the application using kubectl command] *************
+	changed: [node1]
+
+	TASK [initialize_pods : to wait for 5 minutes] *********************************
+	Pausing for 300 seconds
+	(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+	ok: [node1]
+
+	......................................
+	......................................
+	.....................................
 
 	
 
-	cms docker network refresh
+	TASK [initialize_pods : execute the final command which is the curl to the slave node which had executed the application] ***
+	changed: [node1]
 
-	+---------+------------------------------------------+-----------------+------------+
-	| Ip      | Id                                       | Name            | Containers |
-	+---------+------------------------------------------+-----------------+------------+
-	| docker1 | feb6b33ba133ccb1f72e881e9ac46974f1ea117d | none            | {}         |
-	|         | b0b4db39fb087644d55c6342                 |                 |            |
-	| docker1 | 4a3311f9f6acf4401461e2e2dc3ddb39c9143bed | host            | {}         |
-	|         | 611b20d907b3d899b595e597                 |                 |            |
-	| docker1 | 87209b9615716884e2ed8490b59ea805780598a8 | bridge          | {}         |
-	|         | 5a18bee6c27ba03aad58f14a                 |                 |            |
-	| docker2 | 57bcbb05a76f042e4c07b265d6b4cb2126abdcb6 | host            | {}         |
-	|         | 0a07e0e2e173dfacb3d09769                 |                 |            |
-	| docker2 | 9f44589db4def03fe5c11e0f560b357909d46528 | bridge          | {}         |
-	|         | f02b8ce4161acf58f57202c4                 |                 |            |
-	| docker2 | bc39e454661b05050da6b933ee2ec52fbf466caa | none            | {}         |
-	|         | 565de287de1941760babbec0                 |                 |            |
-	| docker2 | da862dc075bd3458063579675ed2007c65425261 | docker_gwbridge | {}         |
-	|         | dd937f49c3231699b86057a3                 |                 |            |
-	| docker4 | 92c7eed3ae09c5bf04ee2edcbcd9d8f40c3e52ec | bridge          | {}         |
-	|         | d8efd268f7ade74fe2436b74                 |                 |            |
-	| docker4 | 3c90bf98d4d991a17db762e07e5f4c3ab9df06f2 | none            | {}         |
-	|         | 6f09679144e45236b995a6d3                 |                 |            |
-	| docker4 | a134cbac21ea9c7e43d28314266f1aec4c8fcedd | docker_gwbridge | {}         |
-	|         | 3ae60ba3041f0d7cc8ff7bbc                 |                 |            |
-	| docker4 | c87d97dde5870d21e4f57052d4bd51d7e670d671 | host            | {}         |
-	|         | 99a71552f5e5c9514e965e18                 |                 |            |
-	| docker3 | 0db9de4744c642ea406aa3b22d2d185b46716e53 | docker_gwbridge | {}         |
-	|         | 0c6e5dedbb90be1e4b59236e                 |                 |            |
-	| docker3 | 861862abf66bec01af7d4149c91c28d979e1dda7 | host            | {}         |
-	|         | 31266eb30bc5c76a7aae551f                 |                 |            |
-	| docker3 | 109ed16096d208442f4697b1c25559e99565fd27 | bridge          | {}         |
-	|         | 17bd3e5b2285de7513066d62                 |                 |            |
-	| docker3 | ceee39512a4de82efdaefb6e6f24d3fc9f73c19e | none            | {}         |
-	|         | 88be3886cb2c74f0d9b30e71                 |                 |            |
-	+---------+------------------------------------------+-----------------+------------+
+	TASK [initialize_pods : Fetch Spam Detection output file from the remote and save to local] ***
+	changed: [node1]
 
-::
+	PLAY RECAP *********************************************************************
+	node1                      : ok=18   changed=16   unreachable=0    failed=0   
 
-	cms docker network list
-
-	+---------+------------------------------------------+-----------------+------------+
-	| Ip      | Id                                       | Name            | Containers |
-	+---------+------------------------------------------+-----------------+------------+
-	| docker1 | 4a3311f9f6acf4401461e2e2dc3ddb39c9143bed | host            | {}         |
-	|         | 611b20d907b3d899b595e597                 |                 |            |
-	| docker3 | 861862abf66bec01af7d4149c91c28d979e1dda7 | host            | {}         |
-	|         | 31266eb30bc5c76a7aae551f                 |                 |            |
-	| docker3 | ceee39512a4de82efdaefb6e6f24d3fc9f73c19e | none            | {}         |
-	|         | 88be3886cb2c74f0d9b30e71                 |                 |            |
-	| docker1 | feb6b33ba133ccb1f72e881e9ac46974f1ea117d | none            | {}         |
-	|         | b0b4db39fb087644d55c6342                 |                 |            |
-	| docker1 | 87209b9615716884e2ed8490b59ea805780598a8 | bridge          | {}         |
-	|         | 5a18bee6c27ba03aad58f14a                 |                 |            |
-	| docker2 | 57bcbb05a76f042e4c07b265d6b4cb2126abdcb6 | host            | {}         |
-	|         | 0a07e0e2e173dfacb3d09769                 |                 |            |
-	| docker2 | 9f44589db4def03fe5c11e0f560b357909d46528 | bridge          | {}         |
-	|         | f02b8ce4161acf58f57202c4                 |                 |            |
-	| docker2 | bc39e454661b05050da6b933ee2ec52fbf466caa | none            | {}         |
-	|         | 565de287de1941760babbec0                 |                 |            |
-	| docker2 | da862dc075bd3458063579675ed2007c65425261 | docker_gwbridge | {}         |
-	|         | dd937f49c3231699b86057a3                 |                 |            |
-	| docker4 | 92c7eed3ae09c5bf04ee2edcbcd9d8f40c3e52ec | bridge          | {}         |
-	|         | d8efd268f7ade74fe2436b74                 |                 |            |
-	| docker4 | 3c90bf98d4d991a17db762e07e5f4c3ab9df06f2 | none            | {}         |
-	|         | 6f09679144e45236b995a6d3                 |                 |            |
-	| docker4 | a134cbac21ea9c7e43d28314266f1aec4c8fcedd | docker_gwbridge | {}         |
-	|         | 3ae60ba3041f0d7cc8ff7bbc                 |                 |            |
-	| docker4 | c87d97dde5870d21e4f57052d4bd51d7e670d671 | host            | {}         |
-	|         | 99a71552f5e5c9514e965e18                 |                 |            |
-	| docker3 | 0db9de4744c642ea406aa3b22d2d185b46716e53 | docker_gwbridge | {}         |
-	|         | 0c6e5dedbb90be1e4b59236e                 |                 |            |
-	| docker3 | 109ed16096d208442f4697b1c25559e99565fd27 | bridge          | {}         |
-	|         | 17bd3e5b2285de7513066d62                 |                 |            |
-	+---------+------------------------------------------+-----------------+------------+
-
-
-Unit Tests
-----------
-
-We are providing a simple set of tests that verify the integration of docker
-into cloudmesh. They can either be run with `nosetests` .
-
-Use::
-
-  nosetests -v --nocapture tests/test_docker.py
-  nosetests -v --nocapture tests/test_swarm.py
-
-to check them out and see if the tests succeed.
-
-Benchmarking
-------------
-
-We are providing a set of benchmark scripts that will help you to easily benchmark
-the application. They can either be run with cms command .
-
-Use::
-
-  cms docker benchmark N
-  cms swarm  benchmark N
-
-
-
-
-
-
+	Time Taken for running the Spam Detection application:342.945085049 seconds
+	Cluster xxxx created and Kubernetes is running on cluster.
+	
+The above command runs the spam detection application on the kubernetes cluster and outputs the file which has the timings taken by various algorithms for spam detection. Its then fetches the output from the virtual cluster to the local machine and saves it at ~/cloudmesh.kubernetes/ansiblescript/output
