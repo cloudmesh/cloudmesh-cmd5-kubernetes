@@ -25,28 +25,17 @@ Activate the virtual environment:
 source ~/ENV/bin/activate
 ```
 
-```
-function test() {
-  console.log("notice the blank line before this function?");
-}
-```
-
 Now you need to get two source directories. We assume yo place them in ~/ i.e Your home directory:
+
 ```
 cd ~
+
 git clone https://github.com/cloudmesh/cloudmesh.common.git 
 
 git clone https://github.com/cloudmesh/cloudmesh.cmd5.git 
 
 git clone https://github.com/cloudmesh/cloudmesh.kubernetes.git
 ```
-
-
-
-
-
-
-
 
 The cmd5 repository contains the shell, while the cloudmesh.Kubernetes directory contains the Kubernetes commands.
 
