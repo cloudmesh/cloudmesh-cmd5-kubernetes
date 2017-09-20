@@ -144,7 +144,7 @@ kubernetes command
             kubernetes cloud CLOUD
             kubernetes cluster info
             kubernetes cluster deploy
-            kubernetes cluster benchmark ]
+            kubernetes cluster benchmark
            
           Arguments:
             NAME     name of the cluster 
@@ -165,8 +165,8 @@ kubernetes command
 Sample Execution Steps
 ----------------------
 
-Below are example usage of the command.The first step is always to
-set the docker api url
+The first step is always to configure the settings required for the Kubernetes cluster.
+Here you set the name for the cluster, the size of the cluster, the cloud on which you want to create the Kubernetes cluster and give the cluster an image type.
 
 ::
 
