@@ -24,7 +24,13 @@ Activate the virtual environment:
 ```
 source ~/ENV/bin/activate
 ```
-  
+
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
+
 Now you need to get two source directories. We assume yo place them in ~/ i.e Your home directory:
 ```
 cd ~
