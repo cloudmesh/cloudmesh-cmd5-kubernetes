@@ -71,7 +71,15 @@ You will have to do the following modifications to match you machine::
         - kilo
 	- chameleon
     clouds:
-    kilo:    
+      kilo:    
+	credentials:
+	  OS_USERNAME: xxxx
+          OS_PASSWORD: xxxx
+	  OS_PROJECT_NAME: xxxx 
+      default:
+        flavor: xxxx
+        image: xxxx
+     chameleon:    
 	credentials:
 	  OS_USERNAME: xxxx
           OS_PASSWORD: xxxx
@@ -79,122 +87,6 @@ You will have to do the following modifications to match you machine::
     default:
         flavor: xxxx
         image: xxxx
-
-
-
-Ansible Scripts
---------------	
-
-The project includes multiple Ansible scripts available in the 
-/config/ansible directory.The Ansible playbook YML files are 
-available in the /config/ansible/YAML directory
-
-::
-
-	docker.yml -       Install Docker on remote hosts
-	
-	docker-hosts.yml - Make entry in /etc/hosts for every server
-			   in your host file with the host name as defined in
-			   the ansible inventory.txt so that we can refer to
-			   the hosts via standard names across across servers 
-			   without the need for using a Ip address
-
-	docker-image-install.yml - Is a reference template for installing docker
-				   on remote hosts.This Playbook will automatically
-				   sync the /config/docker folder to the remote
-				   and run the Dockerfile in them to build the images.
-						   
-Ansible Inventory
------------------
-
-A key requirement for using the repository is to build a host file.A template of the
-host file is available in /config/ansible.Please set this up before using the ansible
-scripts::
-
-        [docker-cluster]
-        docker1 ansible_ssh_user=?? ansible_ssh_host=??.??.??.?? internal_ip=??.??.??.??
-        docker2 ansible_ssh_user=?? ansible_ssh_host=??.??.??.?? internal_ip=??.??.??.??
-        [swarm-cluster]
-        docker3 ansible_ssh_user=?? ansible_ssh_host=??.??.??.?? internal_ip=??.??.??.??
-        docker4 ansible_ssh_user=?? ansible_ssh_host=??.??.??.?? internal_ip=??.??.??.??
-        [Benchmark-Tool-Server]
-        dockerconfig ansible_ssh_user=?? ansible_ssh_host=??.??.??.?? internal_ip=??.??.??.??
-	
-The docker-hosts ansible playbook uses the internal_ip field to setup the /etc/hosts
-entry in all the servers listed here.
-
-Also you would need to make entry for these hosts in the /etc/hosts of your local machine
-to start using the test scripts in the repo.::
-
-		??.??.??.?? docker1
-		??.??.??.?? docker2
-		??.??.??.?? docker3
-		??.??.??.?? docker4
-		??.??.??.?? dockerconfig
-
-We recommend that you maintain separate host files for each cloud against which you would
-like to use the client.eg
-
-::
-
-	hosts.chameleon
-	hosts.aws
-	hosts.jetstream
-
-If you are using cloudmesh client you can use the below commands to setup a cluster of servers needed.
-
-::
-
-	cm secgroup add docker docker_cluster 1 65535 tcp 0.0.0.0/0
-	cm secgroup upload
-	cm cluster define --count 3 --image CC-Ubuntu16.04 --flavor m1.large --secgroup docker
-	cm cluster allocate
-    	cm cluster nodes
-	
-
-Run Ansible Scripts
----------------------
-
-Once the host file setup is done installation of the docker in all the remote hosts is trivial.
-You can chose to use the cms command build to run the docker setup ansible scripts
-
-::
-
-	cms docker install hosts.chameleon
-	cms swarm install hosts.jetstream
-
-You can also run the playbooks manually at /config/ansible::
-
-	ansible-playbook -i hosts.chameleon docker.yml
-	ansible-playbook -i hosts.chameleon docker-hosts.yml
-
-
-Docker Api
-----------
-
-The CMD5 docker and swarm commands can be used to work on docker 
-installed on any server. The only requirement is to have docker api
-exposed out in a certain port.
-
-The repository includes a ansible script available in config/ansible
-directory to install docker on remote hosts as configured in the Hosts 
-file.
-
-The YML configs are available in config/ansible/yaml directory.
-
-The YML file docker.yml will install the latest docker
-on all the remote hosts configured in you hosts file and also enable
-your docker remote machines for remote acess .
-
-If you have installed docker manually on the remote hosts please
-ensure that the ExecStart
-value is set in the /lib/systemd/system/docker.service as below::
-
-    ExecStart=/usr/bin/docker daemon -H fd:// -H tcp://0.0.0.0:4243
-
-Setting the above value and restarting the docker service will ensure 
-docker api is exposed and accessible remotely.
-
 
 Execution
 ---------
@@ -233,111 +125,41 @@ Commands
 The following commands are added as part of the project and available
 for use via the cloudmesh shell::
 
-    docker
-    swarm
+    Kubernetes
+    
 	
 The refresh commands refresh the current status from remote hosts and the
 list commands pull the data from local.(This is yet to be fully integrated)
     
-docker command
+kubernetes command
 --------------
 
 ::
 
           Usage:
-            docker host list
-            docker host delete ADDR
-            docker host install HFILE
-            docker host NAME ADDR
-            docker benchmark N
-            docker image refresh
-            docker image list [ARG...]
-            docker container create NAME IMAGE [ARG...]
-            docker container start NAME [ARG...]
-            docker container stop NAME [ARG...]
-            docker network create IMAGE [ARG...]
-            docker network refresh
-            docker network list [ARG...]
-            docker container refresh
-            docker container list [ARG...]
-            docker container delete NAME [ARG...]
-            docker container run NAME IMAGE [ARG...]
-            docker container pause NAME [ARG...]
-            docker container unpause NAME [ARG...]
-            docker process config CNAME
-
-
-  
+            kubernetes name NAME
+            kubernetes size SIZE
+            kubernetes image IMAGE
+            kubernetes flavor FLAVOR
+            kubernetes cloud CLOUD
+            kubernetes cluster info
+            kubernetes cluster deploy
+            kubernetes cluster benchmark ]
+           
           Arguments:
-            NAME     The name of the docker Host/Container/Network
-            IMAGE    Docker server images
-            ADDR     IP or Name:port of docker API
-            CNAME    Config File Name
-            HFILE    Ansible Inventory.txt to be used
-            N        Number of benchmark iterations
-            [ARG..]  Denotes a extensible arguments that can be passed as a name value pair.Docker Containers
-                     and networks have a lot of customization options.These options are documented here
-                     http://docker-py.readthedocs.io/en/stable/index.html
-                     All the options are available by simply passing the values as a name value pair
-                     eg
-                     docker container create NAME IMAGE network_mode=?? entrypoint=??
+            NAME     name of the cluster 
+            SIZE     size of the cluster
+            IMAGE    image of the cluster
+            FLAVOR   flavor of the vm
+            CLOUD    cloud on which the cluster will be created
+            
 
           Options:
             -v       verbose mode
 
           Description:
-            Manages a virtual docker on a cloud
+            Manages a virtual kubernetes cluster on a cloud
 
-
-swarm command
--------------
-
-::
-
-          Usage:
-            swarm host list
-            swarm host delete ADDR
-            swarm host install HFILE
-            swarm host NAME ADDR
-            swarm benchmark N
-            swarm create [ARG...]
-            swarm join ADDR TYPE [ARG...]
-            swarm leave [ARG...]
-            swarm network create NAME [ARG...]
-            swarm network list [ARG...]
-            swarm network refresh
-            swarm network delete NAME
-            swarm service create NAME IMAGE  [ARG...]
-            swarm service list [ARG...]
-            swarm service delete NAME
-            swarm service refresh
-            swarm node list
-            swarm node refresh
-            swarm image refresh
-            swarm image list [ARG...]
-            swarm container refresh
-            swarm container list [ARG...]
-
-
-          Arguments:
-            NAME     The name of the docker swarm
-            IMAGE    Docker server images
-            HFILE    Ansible Inventory.txt to be used
-            N        Number of Benchmark iterations
-            ADDR     Address of host ip:port(if port no given default port is assumed)
-            TYPE     Whether the node is Manager or Worker
-            URL      URL of docker API
-            [ARG..]  Denotes a extensible arguments that can be passed as a name value pair.Swarm Services
-                     and networks have a lot of customization options.These options are documented here
-                     http://docker-py.readthedocs.io/en/stable/index.html
-                     All the options are available by simply passing the values as a name value pair
-                     eg
-                     swarm service create NAME IMAGE hostname=?? networks=??
-          Options:
-             -v       verbose mode
-   
-          Description:
-             Manages a virtual docker swarm on a cloud
 
 
 Sample Execution Steps
