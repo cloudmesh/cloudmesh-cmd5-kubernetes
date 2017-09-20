@@ -180,9 +180,9 @@ Kubernetes size command
 -----------------------
 ::
 
-	cms> kubernetes size 2
-	Set size to 2
-The above command sets the size of the Kubernetes cluster to 2. So when the cluster will be created, 2 instances will be created in the cluster.
+	cms> kubernetes size 3
+	Set size to 3
+The above command sets the size of the Kubernetes cluster to 3. So when the cluster will be created, 2 instances will be created in the cluster.
 
 Kubernetes flavor command
 -----------------------
@@ -215,8 +215,8 @@ Kubernetes cluster info command
 	cms> kubernetes cluster info
 	Cluster details:
 		Cloud  :chameleon
-		Name   : xxx
-		Size   : 2
+		Name   : xxxx
+		Size   : 3
 		Image  : CC-Ubuntu16.04-20160610
 		Flavor : m1.medium
 		
@@ -232,7 +232,7 @@ Once you have setted all the necessary details or parameters for the Kubernetes 
 	Creating cluster xxxx...
 	Defined cluster xxxx
 	set default cloud=chameleon. ok.
-	Cluster qwer is now active
+	Cluster xxxx is now active
 	INFO: Booting VM for cluster qwer
 	Machine savora-290 is being booted on cloud chameleon ...
 	+-----------+--------------------------------+
@@ -260,8 +260,8 @@ Once you have setted all the necessary details or parameters for the Kubernetes 
 	..........................................
 	.........................................
 	
-	Cluster xxx created
-	qwer
+	Cluster xxxx created
+	xxxx
         # 129.114.32.161:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
 	# 129.114.32.161:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
 	# 129.114.32.161:22 SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu1
@@ -288,128 +288,61 @@ Once you have setted all the necessary details or parameters for the Kubernetes 
 	...........................
 	...........................
 	
+	Time Taken for installing various pre requites for kubernetes:30.482833147 seconds
+	
+	Running the setup needed for Kubernetes
+
+	PLAY [kubernetes-master kubernetes-slave] **************************************
+
+	TASK [setup] *******************************************************************
+	ok: [node3]
+	ok: [node1]
+	ok: [node2]
+	
+	TASK [kubernetes.setup : to install docker for Kubernetes] *********************
+	changed: [node1]
+ 	[WARNING]: Consider using apt module rather than running apt-get
+	
+	.........................
+	.........................
+	........................
+	
+	changed: [node2]
+	changed: [node3]
+	Time Taken for installing kubernetes related packages:40.039593935 seconds
+	
+	Installing Kubernetes on master node
+
+	PLAY [kubernetes-master] *******************************************************
+
+	TASK [setup] *******************************************************************
+	ok: [node1]
+
+	TASK [initialize_master : to modify the directory permission of the home directory] ***
+	changed: [node1]
+ 	[WARNING]: Consider using file module with mode rather than running chmod
+	
+	...........................
+	...........................
+	...........................
+
+	PLAY [kubernetes-master] *******************************************************
+
+	TASK [setup] *******************************************************************
+	ok: [node1]
 	Time Taken for deploying Kubernetes cluster:101.560043097
 	Ansible tasks have been successfully completed.
-	Cluster qwer created and Kubernetes is running on cluster.
+	Cluster xxxx created and Kubernetes is running on cluster.
 	
-The above command creates a Kubernetes cluster with the specified name in the name command with the size in the size command on the cloud mentioned in the cloud command. Moreover, its takes the flavor name and image through the corresponding commands as well. It creates the cluster using cloudmesh client and 
+The above command creates a Kubernetes cluster with the specified name in the name command with the size in the size command on the cloud mentioned in the cloud command. Moreover, its takes the flavor name and image through the corresponding commands as well. It creates the cluster using cloudmesh client and adds the list of IP address to the known host file and creates a host file for ansible script execution.
+
+After the cluster creation, it triggers various ansible playbooks to configure the Kubernetes cluster. The installations.yml playbook is triggered first which installs git and updates the vms in all the instances. Next up is called the Kubernetes.yml playbook which installs docker for kubernetes, get the kubernetes related packages and installs the dataset required for kubernetes.
+
+Later, its calls the master.yml playbook which installs Kubernetes package on the master (one of the instance) and initializes the kubernetes cluster and finally the slaves.yml is called which connects the rest of the instances to this master and the creation of Kubernetes cluster is complete.
 
 ::
 
-	cms docker image list
-
-	+---------+------------------------------------------+------------------------------------------+----------+
-	| Ip      | Id                                       | Repository                               | Size(GB) |
-	+---------+------------------------------------------+------------------------------------------+----------+
-	| docker1 | sha256:909af725a4032bf00f36b45b358c46d6a | elasticsearch:swarm                      | 0.2      |
-	|         | 67f8b3201747c8992c920bc34d3148c          |                                          |          |
-	| docker1 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	| docker3 | sha256:ec53e8e805a81d93f3c8d812f3b179f08 | elasticsearch:swarm                      | 0.2      |
-	|         | 9695fcfb7d8361ada89588c4da69c82          |                                          |          |
-	| docker3 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	| docker2 | sha256:f70df3612f57225cb85bc20442c42c744 | elasticsearch:swarm                      | 0.2      |
-	|         | bf303e3cdcde08c0092c16a8d655748          |                                          |          |
-	| docker2 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	| docker4 | sha256:c66e748329975c1ca97ecc23b2b5fcc02 | elasticsearch:swarm                      | 0.2      |
-	|         | f6781885053321add902e9267c42880          |                                          |          |
-	| docker4 | sha256:ccec59a7dd849e99addc11a9bd11b15e9 | docker.elastic.co/elasticsearch/elastics | 0.19     |
-	|         | addf2dff7741cf82b603d01d0ccdb54          | earch:5.3.0                              |          |
-	+---------+------------------------------------------+------------------------------------------+----------+
-
-::
-
-	cms docker container refresh
-
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-	| Ip      | Id                                       | Name            | Image                | Status | StartedAt                      |
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-	| docker1 | 31d3cfb389f14f3fbf3ff434584690590c70b37f | /elasticsearch1 | elasticsearch:docker | exited | 2017-04-22T16:47:31.585424378Z |
-	|         | c5cd6416db389e49df4d643e                 |                 |                      |        |                                |
-	| docker1 | 8a7e6543f9fa1052c05617cbdd4ac87824b402c0 | /elasticsearch2 | elasticsearch:docker | exited | 2017-04-22T16:47:39.25325675Z  |
-	|         | 86cd0219b72178d9b75aec0b                 |                 |                      |        |                                |
-	| docker2 | 42bd36cfb7a6b44bf423373f5cbbcb11d3a24313 | /elasticsearch4 | elasticsearch:docker | exited | 2017-04-22T16:48:06.191045149Z |
-	|         | bcd85565f87f0dcffd9c4122                 |                 |                      |        |                                |
-	| docker2 | cb06419167b6d403bd868fca0229637f4cc84fa1 | /elasticsearch3 | elasticsearch:docker | exited | 2017-04-22T16:48:13.076917845Z |
-	|         | 6195a7650129038b7e85895b                 |                 |                      |        |                                |
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-
-::
-
-	cms docker container list
-
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-	| Ip      | Id                                       | Name            | Image                | Status | StartedAt                      |
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-	| docker1 | 31d3cfb389f14f3fbf3ff434584690590c70b37f | /elasticsearch1 | elasticsearch:docker | exited | 2017-04-22T16:47:31.585424378Z |
-	|         | c5cd6416db389e49df4d643e                 |                 |                      |        |                                |
-	| docker1 | 8a7e6543f9fa1052c05617cbdd4ac87824b402c0 | /elasticsearch2 | elasticsearch:docker | exited | 2017-04-22T16:47:39.25325675Z  |
-	|         | 86cd0219b72178d9b75aec0b                 |                 |                      |        |                                |
-	| docker2 | 42bd36cfb7a6b44bf423373f5cbbcb11d3a24313 | /elasticsearch4 | elasticsearch:docker | exited | 2017-04-22T16:48:06.191045149Z |
-	|         | bcd85565f87f0dcffd9c4122                 |                 |                      |        |                                |
-	| docker2 | cb06419167b6d403bd868fca0229637f4cc84fa1 | /elasticsearch3 | elasticsearch:docker | exited | 2017-04-22T16:48:13.076917845Z |
-	|         | 6195a7650129038b7e85895b                 |                 |                      |        |                                |
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-
-::
-
-	cms docker container create test1 elasticsearch:docker
-	Container test1 is Created
-
-::
-
-	cms docker container start test1
-	Container test1 status changed to start
-
-::
-
-	cms docker container list
-
-	+---------+------------------------------------------+-----------------+----------------------+---------+--------------------------------+
-	| Ip      | Id                                       | Name            | Image                | Status  | StartedAt                      |
-	+---------+------------------------------------------+-----------------+----------------------+---------+--------------------------------+
-	| docker1 | 31d3cfb389f14f3fbf3ff434584690590c70b37f | /elasticsearch1 | elasticsearch:docker | exited  | 2017-04-22T16:47:31.585424378Z |
-	|         | c5cd6416db389e49df4d643e                 |                 |                      |         |                                |
-	| docker1 | 8a7e6543f9fa1052c05617cbdd4ac87824b402c0 | /elasticsearch2 | elasticsearch:docker | exited  | 2017-04-22T16:47:39.25325675Z  |
-	|         | 86cd0219b72178d9b75aec0b                 |                 |                      |         |                                |
-	| docker2 | 42bd36cfb7a6b44bf423373f5cbbcb11d3a24313 | /elasticsearch4 | elasticsearch:docker | exited  | 2017-04-22T16:48:06.191045149Z |
-	|         | bcd85565f87f0dcffd9c4122                 |                 |                      |         |                                |
-	| docker2 | cb06419167b6d403bd868fca0229637f4cc84fa1 | /elasticsearch3 | elasticsearch:docker | exited  | 2017-04-22T16:48:13.076917845Z |
-	|         | 6195a7650129038b7e85895b                 |                 |                      |         |                                |
-	| docker2 | ad271e34bfb32422b1bc134250daec2941461910 | /test1          | elasticsearch:docker | running | 2017-04-24T11:42:04.659965801Z |
-	|         | 933ed3537a4705a26f93a67d                 |                 |                      |         |                                |
-	+---------+------------------------------------------+-----------------+----------------------+---------+--------------------------------+
-
-::
-
-	cms docker container stop test1
-	Container test1 status changed to stop
-
-::
-
-	cms docker container delete test1
-	Container test1 is deleted
-
-::
-
-	cms docker container list
-
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-	| Ip      | Id                                       | Name            | Image                | Status | StartedAt                      |
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-	| docker1 | 31d3cfb389f14f3fbf3ff434584690590c70b37f | /elasticsearch1 | elasticsearch:docker | exited | 2017-04-22T16:47:31.585424378Z |
-	|         | c5cd6416db389e49df4d643e                 |                 |                      |        |                                |
-	| docker1 | 8a7e6543f9fa1052c05617cbdd4ac87824b402c0 | /elasticsearch2 | elasticsearch:docker | exited | 2017-04-22T16:47:39.25325675Z  |
-	|         | 86cd0219b72178d9b75aec0b                 |                 |                      |        |                                |
-	| docker2 | 42bd36cfb7a6b44bf423373f5cbbcb11d3a24313 | /elasticsearch4 | elasticsearch:docker | exited | 2017-04-22T16:48:06.191045149Z |
-	|         | bcd85565f87f0dcffd9c4122                 |                 |                      |        |                                |
-	| docker2 | cb06419167b6d403bd868fca0229637f4cc84fa1 | /elasticsearch3 | elasticsearch:docker | exited | 2017-04-22T16:48:13.076917845Z |
-	|         | 6195a7650129038b7e85895b                 |                 |                      |        |                                |
-	+---------+------------------------------------------+-----------------+----------------------+--------+--------------------------------+
-
-::
+	
 
 	cms docker network refresh
 
