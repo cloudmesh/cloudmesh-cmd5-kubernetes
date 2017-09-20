@@ -6,5 +6,5 @@ be deploying a kubernetes cluster using kubeadm - the kubernetes command line to
 
 # Requirements
 =============
--Python 2.7.13  
+- Python 2.7.13  
 - Ubuntu 16.04
