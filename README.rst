@@ -391,3 +391,71 @@ Once the Kubernetes cluster has been deployed, the benchmark command can be exec
 	Cluster xxxx created and Kubernetes is running on cluster.
 	
 The above command runs the spam detection application on the kubernetes cluster and outputs the file which has the timings taken by various algorithms for spam detection. Its then fetches the output from the virtual cluster to the local machine and saves it at ~/cloudmesh.kubernetes/ansiblescript/output directory
+
+
+The output file 
+===============
+
+The contents of the output file are as follows
+::
+	Loading required package: tm
+	Loading required package: NLP
+	Loading required package: e1071
+	Loading required package: ada
+	Loading required package: rpart
+	Loading required package: rbenchmark
+	Loading required package: gclus
+	Loading required package: cluster
+	Loading required package: MASS
+	Loading required package: class
+	[1] "Uploading SMS Spam dataset"
+	[1] "Extracting Ham and Spam Basic Statistics!"
+	[1] "Average Ham is :"
+	[1] 0.8656261
+	[1] "Var of Ham is :"
+	[1] 0.116328
+	[1] "Extract average token of Hams and Spams!"
+	[1] "total number of tokens is:"
+	[1] 172558
+	[1] "Avarage number of tokens per ham message"
+	[1] 14.14487
+	[1] "Avarage number of tokens per spam message"
+	[1] 24.0721
+	[1] " Make two different sets, training data and test data!"
+	[1] "Training data size is!"
+	[1] 3325    2
+	[1] "Test data size is!"
+	[1] 7823    2
+	[1] "----------------------------------SVM-----------------------------------------"
+	[1] "Linear Kernel"
+	General Error using Linear SVM is (in percent): 6.416976Ham Error using Linear SVM is (in percent): 3.085782Spam Error using 		Linear SVM is (in percent): 27.904762Test vectors: 7823 40 , Accuracy = 93.58302 %
+		Time taken by SvmLinearKernel : 1.297077 [1] "Polynomial Kernel"
+	[1] "tabpoly data:"
+    	true
+	pred    0    1
+  	 0  514   80
+  	 1  536 6693
+	Test vectors: 7823 40 , Accuracy = 92.12578 %
+	Time taken by SvmPolynomialKernel : 1.873152 [1] "Radial Kernel"
+	Test vectors: 7823 40 , Accuracy = 93.72364 %
+	Time taken by SvmRadialKernel : 1.935754 Call:
+	ada(vtrdata[, 2:length(vtrdata[1, ])], y = vtrdata[, 1], test.x = vtedata[, 
+   	 2:length(vtedata[1, ])], test.y = vtedata[, 1], loss = "logistic", 
+    	type = "gentle", iter = 100)
+
+	Loss: logistic Method: gentle   Iteration: 100 
+
+	Training Results
+
+	Accuracy: 0.942 Kappa: 0.737 
+
+	Testing Results
+
+	Accuracy: 0.939 Kappa: 0.723 
+
+
+	Time taken by AdaBoost : 22.342663 Test vectors: 7823 40 , Accuracy = 91.76786 %
+	Time taken by NaiveBayes : 6.611221 Time taken by the entire application : 48.921906
+
+The above file outputs the time taken by AdaBoost and Naive Bayes to detect spam deteciton application. Moreover the bechmark command also outputs the time taken for executing in on the kubernetes cluster on the specified cloud.
+
