@@ -42,12 +42,17 @@ The cmd5 repository contains the shell, while the cloudmesh.Kubernetes directory
 ```
 To install them simply to the following:
 
-cd ~/cloudmesh.common 
-python setup.py install; pip install -e .
+cd ~/cloudmesh.common
 
-cd ~/cloudmesh.cmd5 
-python setup.py install; pip install -e .
+python setup.py install 
+pip install -e .
+
+cd ~/cloudmesh.cmd5
+python setup.py install
+pip install -e .
 
 cd ~/github/cloudmesh.kubernetes 
-python setup.py install; pip install -e
+python setup.py install
+pip install -e
+
 ```
