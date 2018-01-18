@@ -39,7 +39,7 @@ version = readfile("VERSION")[0].strip()
 readme = readfile('README.rst')
 
 NAME = "cloudmesh.kubernetes"
-DESCRIPTION = "A command called kubernetes and foo for the cloudmesh shell"
+DESCRIPTION = "A command extension to cloudmesh for managing kubernetes via the cloudmesh shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cloudmesh.kubernetes"
